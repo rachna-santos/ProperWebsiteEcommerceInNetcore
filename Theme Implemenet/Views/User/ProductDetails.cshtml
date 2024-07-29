@@ -1,0 +1,388 @@
+﻿@model IEnumerable<Theme_Implemenet.Models.ProductVeriation>
+
+@{
+    ViewData["Title"] = "ProductDetails";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="container-fluid pb-5">    
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                
+                </div>
+                <div class="modal-body" id="modalBody">
+                </div>
+                <div class="modal-footer">
+                   @* @{
+
+                    int? userId = ViewContext.HttpContext.Request.Cookies["UserId"] != null ? int.Parse(ViewContext.HttpContext.Request.Cookies["UserId"]) : (int?)null;
+                    }*@
+
+                    @{
+                        string userId = ViewContext.HttpContext.Request.Cookies["UserId"];
+
+                    }
+
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+
+                        <a href="@Url.Action("signup","User")">
+                        <button type="button" class="btn btn-secondary">CheckOut</button>
+                       </a>
+                    }              
+                    else
+                    {
+                        <a href="@Url.Action("processShipping","User")">
+                            <button type="button" class="btn btn-secondary">ProcessShipping</button>
+                        </a>
+                    }
+              
+                    <a href="@Url.Action("ProductDetails","User")">
+                        <button type="button" class="btn btn-primary">Continue Shopping</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row px-xl-5">
+            <div class="col-lg-5 mb-30">
+                <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner bg-light">
+
+                    @foreach (var product in Model)
+                    {
+
+                        <div class="carousel-item @(product == Model.First() ? "active":"")">
+                         <img class="w-100" src="~/@product.image" alt="Image">  
+                            </div>
+                    }
+                    </div>
+                       <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                        <i class="fa fa-2x fa-angle-left text-dark"></i>
+                    </a>
+                    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                        <i class="fa fa-2x fa-angle-right text-dark"></i>
+                    </a>
+            </div>       
+            </div>
+       
+             <div class="col-lg-7 h-auto mb-30">
+            <div class="h-100 bg-light p-30">
+            <h3>@ViewBag.ProductName</h3>
+            @if (ViewBag.Ratings != null)
+            {
+                @foreach (var item in ViewBag.Ratings)
+                {
+                    <div class="d-flex mb-3">   
+                        @for (int i = 0; i < item.Rating; i++)
+                        {
+                            <div class="text-primary mr-2">
+                                <small class="fas fa-star"></small>
+                            </div>
+                        }
+
+                        <small class="pt-1">(99Reviews)</small>
+                    </div>
+                }
+            }  
+            <h3 class="font-weight-semi-bold mb-4">$@ViewBag.price</h3><h6 class="text-muted ml-2"><del>$@ViewBag.prices</del></h6>
+                <form method="post" asp-action="ProductDetails" onsubmit="return validateForm()">          
+                    <div class="d-flex mb-3">
+                        <strong class="text-dark mr-3">Sizes:</strong>
+                       
+                        @foreach (var item in ViewBag.size)
+                        {
+                            <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-@item.productsizeId" name="size" value="@item.productsizeName">
+                            <label class="custom-control-label" for="size-@item.productsizeId">@item.productsizeName</label>
+                            </div>
+                        }            
+                    </div>
+                    <div class="d-flex mb-4">
+                        <strong class="text-dark mr-3">Colors:</strong>
+                        @foreach (var item in ViewBag.color)
+                        {
+                            <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input color-radio" id="color-@item.productcolorId" name="color" value="@item.productcolorName" style="color:@item.colorcode1">
+                            <label class="custom-control-label" for="color-@item.productcolorId">@item.productcolorName</label>
+                        </div>
+                        }
+                    </div>
+
+                    @foreach (var variation in Model)
+                    {
+                    <input type="hidden" name="id" value="@variation.veriationId">
+                        <input type="hidden" name="price" value="@variation.costprice">
+                        <input type="hidden" name="image" value="@variation.image">                    
+                    }                  
+                <div class="d-flex align-items-center mb-4 pt-2">
+                <div class="qty-input">
+                    <button class="qty-count qty-count--minus btn btn-primary" data-action="minus" type="button">-</button>
+                    <input class="product-qty" type="number" name="qty" min="0" max="10" value="1">
+                    <button class="qty-count qty-count--add btn btn-primary" data-action="add" type="button">+</button>
+                </div>
+                    <input type="submit" value="Add To Cart" class="btn btn-primary px-3 btn-add-to-cart ml-4" onclick="openModal('@ViewBag.image')">
+                </div>
+              </form>
+             </div>
+         </div>
+    </div>
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="bg-light p-30">
+                <div class="nav nav-tabs mb-4">
+                    <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Description</a>
+                    <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Information</a>
+                    <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tab-pane-1">
+                        <h4 class="mb-3">Product Description</h4>
+
+                    <p>What makes your products unique? And what can people benefit from it? Highlighting these features is an effective marketing strategy for your business. Make sure to highlight the features other customers will want to buy. It can be the durability of your clothing, the design, the sustainability of your production process, etc.</p>
+                    </div>
+                    <div class="tab-pane fade" id="tab-pane-2">
+                        <h4 class="mb-3">Additional Information</h4>
+                    <p>ust as much as the images of a product significantly impact your e-commerce fashion sales and conversion rates, the product description also plays a huge role. A product’s sales success in the market hinges on how well you describe it. One of the most critical elements of your e-commerce site, in terms of making sales, is a detailed and exciting product description.</p>
+                    </div>                 
+                   @if(User.Identity.IsAuthenticated)
+                   {                 
+                    <div class="tab-pane fade" id="tab-pane-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4 class="mb-4">@ViewBag.ProductName</h4>
+
+                                @if (ViewBag.Ratings != null)
+                                {
+                                    @foreach (var item in ViewBag.Ratings)
+                                    {
+                                        <div class="media mb-4">
+                                            <div class="media-body">
+                                                <h6><small> - <i>@item.CreateDate</i></small></h6>
+                                                @for (int i = 0; i < item.Rating; i++)
+                                                {
+                                                    <div class="text-primary mr-2">
+                                                        <small class="fas fa-star"></small>                                      
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="col-md-6">
+                                <h4 class="mb-4">Leave a review</h4>
+                                <small>Your email address will not be published. Required fields are marked *</small>
+                                <div class="d-flex my-3">
+                                    <p class="mb-0 mr-2">Your Rating * :</p>
+                                    <div class="text-primary">
+                                        <i class="ratingstart far fa-star" data-value="1"></i>
+                                        <i class="ratingstart far fa-star" data-value="2"></i>
+                                        <i class="ratingstart far fa-star" data-value="3"></i>
+                                        <i class="ratingstart far fa-star" data-value="4"></i>
+                                        <i class="ratingstart far fa-star" data-value="5"></i>
+                                    </div>
+                                </div>
+                                <form method="post" asp-action="Comments">
+                                    <div class="form-group">
+                                        <input type="hidden" name="id" value="@ViewBag.id"/>
+                                        <input type="hidden" name="rating" id="addrating" />
+                                        <textarea id="message" cols="30" rows="5" class="form-control" name="text"></textarea>
+                                        <div class="form-group mb-0">
+                                            <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
+                                        </div>
+                                </div>
+
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p>please login</p>
+                }
+            </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<!-- Include jQuery Cookie Plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+@*rating show*@
+<script>
+    $(document).ready(function () {
+        $(".ratingstart").hover(function () {
+            $(".ratingstart").addClass("far").removeClass("fas");
+            $(this).addClass("fas").removeClass("far");
+            $(this).prevAll(".ratingstart").addClass("fas").removeClass("far");
+        });
+
+        $(".ratingstart").click(function () {
+            var startvalue = $(this).attr("data-value");
+            $("#addrating").val(startvalue);
+        });
+    });
+ </script>
+
+@*show pagess from modal*@
+<script>
+       // Function to open the modal and update its content
+    function openModal(image) {
+        var sizeSelected = document.querySelector('input[name="size"]:checked');
+        var colorSelected = document.querySelector('input[name="color"]:checked');
+
+        if (!sizeSelected || !colorSelected) {
+            alert('Please select size and color');
+            return; // Prevent opening the modal
+        }
+        console.log("Image URL:", image);
+        $('#modalBody').html('<img src="' + image + '" class="img-fluid" alt="Product Image">');
+        // Open the modal
+        $('#exampleModal').modal('show');
+    }
+
+    // Function to add item to cartu
+    function addToCart(image) {
+        
+        // Make an AJAX request to add the item to the cart
+        $.ajax({
+            url: '/User/ProductDetails', // Replace 'YourControllerName' with the actual name of your controller
+            type: 'POST',
+            data: {
+                id: $('input[name="id"]').val(), // Pass the value of id variable
+                qty: $('input[name="qty"]').val(), // Assuming there is an input field with id="qty" in your HTML
+                color: $('input[name="color"]:checked').val(), // Get the selected color
+                size: $('input[name="size"]:checked').val(), // Get the selected size
+                image: $('input[name="image"]').val(), // Pass the value of image variable
+                price: $('input[name="price"]').val(), // Pass the value of price variable
+
+            },
+            success: function (response) {
+                // Handle success response if needed
+                console.log('Item added to cart successfully!');
+                // You can redirect to another page or update the UI as needed
+            },
+            error: function (xhr, status, error) {
+                // Handle error response if needed
+                console.error('Error adding item to cart:', error);
+            }
+        });
+    }
+    // Attach click event to the "Add to Cart" button
+    $(document).ready(function () {
+        $('.btn-add-to-cart').click(function (event) {
+            event.preventDefault(); // Prevent default form submission
+            var image = $(this).closest('.row').find('.carousel-item.active img').attr('src'); // Get the source attribute of the active carousel item's image
+            addToCart(image); // Add item to cart
+            openModal(image); // Open modal with the specified image
+            console.log("image", image)
+        });
+    });
+</script>
+
+@*quantity add and less*@
+
+<script>
+    var QtyInput = (function () {
+        var $qtyInputs = $(".qty-input");
+
+        if (!$qtyInputs.length) {
+            return;
+        }
+
+        var $inputs = $qtyInputs.find(".product-qty");
+        var $countBtn = $qtyInputs.find(".qty-count");
+        var qtyMin = parseInt($inputs.attr("min"));
+        var qtyMax = parseInt($inputs.attr("max"));
+
+        $inputs.change(function () {
+            var $this = $(this);
+            var $minusBtn = $this.siblings(".qty-count--minus");
+            var $addBtn = $this.siblings(".qty-count--add");
+            var qty = parseInt($this.val());
+
+            if (isNaN(qty) || qty <= qtyMin) {
+                $this.val(qtyMin);
+                $minusBtn.attr("disabled", true);
+            } else {
+                $minusBtn.attr("disabled", false);
+
+                if (qty >= qtyMax) {
+                    $this.val(qtyMax);
+                    $addBtn.attr('disabled', true);
+                } else {
+                    $this.val(qty);
+                    $addBtn.attr('disabled', false);
+                }
+            }
+        });
+
+        $countBtn.click(function () {
+            var operator = this.dataset.action;
+            var $this = $(this);
+            var $input = $this.siblings(".product-qty");
+            var qty = parseInt($input.val());
+
+            if (operator == "add") {
+                qty += 1;
+                if (qty >= qtyMin + 1) {
+                    $this.siblings(".qty-count--minus").attr("disabled", false);
+                }
+
+                if (qty >= qtyMax) {
+                    $this.attr("disabled", true);
+                }
+            } else {
+                qty = qty <= qtyMin ? qtyMin : (qty -= 1);
+
+                if (qty == qtyMin) {
+                    $this.attr("disabled", true);
+                }
+
+                if (qty < qtyMax) {
+                    $this.siblings(".qty-count--add").attr("disabled", false);
+                }
+            }
+
+            $input.val(qty);
+        });
+    })();
+
+</script>
+
+@*colorsetradio*@
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const radios = document.querySelectorAll('.color-radio');
+        radios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const selectedLabel = document.querySelector(`label[for="${e.target.id}"]`);
+                const colorCode = window.getComputedStyle(selectedLabel).color;
+
+                radios.forEach(r => {
+                    const label = document.querySelector(`label[for="${r.id}"]`);
+                    label.style.backgroundColor = '';
+                    label.style.color = '';
+                });
+
+                selectedLabel.style.backgroundColor = colorCode;
+                selectedLabel.style.color = '#fff'; // Adjust as needed for contrast
+            });
+        });
+    });
+</script>
+
+
+

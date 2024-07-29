@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Theme_Implemenet.Models.Inventory>
+
+
+@{
+    ViewData["Title"] = "ViewOrdr";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- partial -->
+<div class="main-panel w-100">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">
+                Invoice
+            </h3>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card px-2">
+                    <div class="card-body">
+                        @foreach (var item in Model)
+                        {
+                        <div class="container-fluid">
+                            <h3 class="text-right my-5">OrderNumber&nbsp;&nbsp;@item.Order_Tbl.OrderId</h3>
+                            <hr>
+                        </div>                              
+                        <div class="container-fluid d-flex justify-content-between">
+                            <div class="col-lg-3 pl-0">
+                                <h5>Customer Details</h5>
+                                 <p>Email  :     @item.Customer.CustEmail</p>
+                                <p>Address :     @item.Customer.Address</p>
+                                 <p>MobileNumber :   @item.Customer.CustNumber</p>
+                            </div>
+                            <div class="col-lg-3 pr-0">
+                                <h5 class="mb-2 text-right"><b>Delivery Address</b></h5>
+                                    <p class="mb-2 text-right">@item.Customer.Address</p>
+                                <p class="mb-2 text-right">@item.Order_Tbl.CreateDate</p>
+                            </div>
+                        </div>            
+                        }
+                        <div class="container-fluid mt-5 d-flex justify-content-center w-100">
+                            <div class="table-responsive w-100">
+                                <table class="table">
+                                    <thead>
+                                        <tr class="bg-dark text-white">
+                                            <th>Product</th>
+                                            <th>Description</th>
+                                            <th class="text-right">Quantity</th>
+                                            <th class="text-right">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                       <tr class="text-right">
+                                            <td class="text-left">@item.ProductVeriation.Product.productName</td>
+                                            <td class="text-left">@item.ProductVeriation.Product.description</td>
+                                            <td>@item.quantity</td>
+                                            <td>$@item.Order_Tbl.subtotal</td>
+                                       </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="container-fluid mt-5 w-100">
+                            @foreach (var item in ViewBag.data)
+                            {
+                            <p class="text-right mb-2">Sub - Total amount: $@item.subtotal</p>
+                             <p class="text-right">Discount : $@item.Discount</p>
+                            <p class="text-right mb-2">Sub - Total amount: $@item.shipping</p>
+                             <h4 class="text-right mb-5">Total : $@item.totalamount</h4>
+                           }
+                            <hr>
+                        </div>
+                        <div class="container-fluid w-100">
+                            <a id="printInvoice" class="btn btn-primary float-right mt-4 ml-2"><i class="fa fa-print mr-1"></i>Print</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('printInvoice').addEventListener('click', function () {
+        window.print();
+    });
+</script>

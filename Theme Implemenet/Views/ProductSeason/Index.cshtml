@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Theme_Implemenet.Models.ProductSeason>
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from www.urbanui.com/melody/template/pages/tables/data-table.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:08:40 GMT -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png"/>
+</head>
+
+<body>
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel" style="width:100%">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                       
+                         Season List
+                        
+                    </h3>
+                    <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page" style="font-size: 15px;"><a href="@Url.Action("Create","ProductSeason")" style="color:black;">Create Season</a></li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="table-sorter-wrapper col-lg-12 table-responsive">
+                                        <table id="sortable-table-1" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="sortStyle">Season</th>
+                                                    <th class="sortStyle">Title</th>
+
+                                                    <th class="sortStyle">Edit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.productseasonName)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.title)
+                                                        </td>
+                                                        <td>
+                                                            <a asp-action="Edit" asp-route-id="@item.productseasonId" class="btn btn-primary">Edit</a>
+                                                        </td>
+                                                       @* <td>
+                                                            <form asp-action="Delete" asp-route-id="@item.productseasonId" method="post">
+                                                                <input type="submit" class="btn btn-primary" value="Delete" onclick="return confirm('are you show you want to delete data')" />
+                                                            </form>
+                                                        </td>*@
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <!-- End custom js for this page-->
+</body>
+<!-- Mirrored from www.urbanui.com/melody/template/pages/tables/data-table.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:08:41 GMT -->
+</html>

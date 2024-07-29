@@ -1,0 +1,156 @@
+﻿@*
+@{
+    ViewData["Title"] = "ContactUs";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+
+    .control-group small {
+        color: var(--error-color);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        visibility: hidden;
+    }
+
+    .control-group.success input {
+        border-color: var(--succes-color);
+    }
+
+    .control-group.error input {
+        border-color: var(--error-color);
+    }
+
+    .control-group.error small {
+        visibility: visible;
+    }
+
+</style>
+<!-- Contact Start -->
+<div class="container-fluid">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Contact Us</span></h2>
+    <div class="row px-xl-5">
+        <div class="col-lg-7 mb-5">
+            <div class="contact-form bg-light p-30">
+                <div id="success"></div>
+                <form method="post" asp-action="ContactUs" id="form" class="form">
+                    <div class="control-group">
+                        <label for="Name">Name</label>
+                        <input type="text" class="form-control"  name="name" placeholder="Your Name" id="Name" />
+                        <small style="color:red;">Error Message</small>                       
+                    </div>
+                    <div class="control-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Your Email"/>
+                        <small style="color:red;">Error Message</small>
+                    </div>
+                    <div class="control-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" class="form-control" id="subject" name="sub" placeholder="Subject"/>
+                    </div>
+                    <div class="control-group">
+                        <label for="message">Message</label>
+                        <textarea class="form-control" rows="8" id="message" name="msg" placeholder="Message">
+                        </textarea>
+                     <small style="color:red;">Error Message</small>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">
+                            Send
+                            Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-5 mb-5">
+            <div class="bg-light p-30 mb-30">
+                <iframe style="width: 100%; height: 250px;"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
+                        frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+            <div class="bg-light p-30 mb-3">
+                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, Pakistan</p>
+                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
+                <p class="mb-2"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+                         const form = document.getElementById('form');
+                         const Name = document.getElementById('Name');
+                         const email = document.getElementById('email');
+                          const subject = document.getElementById('subject');
+                         const message = document.getElementById('message');
+
+                         // Show input error messages
+                         function showError(input, message) {
+                             const formControl = input.parentElement;
+                             formControl.className = 'col-md-6 form-group error';
+                             const small = formControl.querySelector('small');
+                             small.innerText = message;
+                         }
+
+                         // Show success color
+                         function showSuccess(input) {
+                             const formControl = input.parentElement;
+                             formControl.className = 'col-md-6 form-group success';
+                         }
+
+                         // Check email is valid
+                         function checkEmail(input) {
+                             if (re.test(input.value.trim())) {
+                                 showSuccess(input);
+                            } else {
+                                showError(input, 'Email is not valid');
+                            }
+                         }
+
+                         // Check required fields
+                         function checkRequired(inputArr) {
+                             inputArr.forEach(function (input) {
+                                 if (input.value.trim() === '') {
+                                     showError(input, `${getFieldName(input)} is required`);
+                                 } else {
+                                     showSuccess(input);
+                                 }
+                             });
+                         }
+
+                         // Check input Length
+                         function checkLength(input, min, max) {
+                             if (input.value.length < min) {
+                                 showError(input, `${getFieldName(input)} must be at least ${min} characters`);
+                             } else if (input.value.length > max) {
+                                 showError(input, `${getFieldName(input)} must be less than ${max} characters`);
+                             } else {
+                                 showSuccess(input);
+                             }
+                         }
+
+                         // Get FieldName
+                         function getFieldName(input) {
+                             return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+                         }
+
+                         // Event Listeners
+                         form.addEventListener('submit', function (e) {
+                             e.preventDefault();
+
+                             checkRequired([Name, email, subject, message]);
+                             checkLength(CustName, 3, 15);
+                             checkLength(password, 6, 25);
+                             checkEmail(email);
+                             if (document.querySelectorAll('.form-group.error').length > 0) {
+                                 // If no errors, submit the form
+                                 return false;
+                             }
+
+                             form.submit();
+
+                         });
+</script>
+*@

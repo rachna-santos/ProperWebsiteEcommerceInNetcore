@@ -1,0 +1,139 @@
+﻿@model Theme_Implemenet.Models.CreateRole
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from www.urbanui.com/melody/template/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:07:32 GMT -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+<style>
+    .btn-primary:hover {
+        background-color: blueviolet;
+    }
+</style>
+<body>
+    <div class="container-scroller">
+        
+        <div class="container-fluid page-body-wrapper">
+            
+            <div class="main-panel" style="width:400%">
+                <div class="content-wrapper container-fluid">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                            Create Role
+                        </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active" aria-current="page" style="font-size: 15px;"><a href="@Url.Action("Index","Admin")" style="color:black;"> Role List</a></li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <form class="forms-sample" method="post">
+
+                    <div class="row">
+                        <div class="card" style="width:400%">
+                            <div class="card-body">         
+                                <div class="row">
+                                        <div class="col-4 col-sm-12 col-lg-4">
+                                            <div class="form-group ml-5" style="margin-top:30px;">
+                                                <label style="font-size: 16px;">Role</label>
+                                                <input asp-for="RoleName" class="form-control form-control-lg" style="height: 60px;font-size: 16px;">
+                                        <span asp-validation-for="RoleName" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                        <div class="col-4 col-sm-12 col-lg-4">
+
+                                            <div class="form-group ml-5" style="margin-top:30px;">
+                                                <label style="font-size: 16px;">Comapny</label>
+                                                <select asp-for="CompanyId" class="form-control form-control-lg" style="height: 60px;font-size: 16px;">
+                                            <option>SelectCompanyId---</option>
+
+                                            @if (ViewBag.company != null)
+                                            {
+                                                foreach (var item in ViewBag.company)
+                                                {
+                                                    <option value="@item.CompanyId">@item.CompanyName</option>
+                                                }
+                                            }
+
+                                        </select>
+                                        <span asp-validation-for="CompanyId" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    <div class="float-right">
+                                        <button type="submit" class="btn btn-primary mr-2 float-lg-right m-b-0">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                        
+                </div>
+            </div>
+        </div>
+   
+    </div>
+
+</body>
+</html>
+<script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('form').submit(function (e) {
+            // Check form validity
+            var form = $(this)[0];
+            if (!form.checkValidity()) {
+                e.preventDefault();
+                // If form is invalid, show error alert
+                swal({
+                  title: "Error!",
+                  text: "Please fill out all required fields.",
+                  icon: "error",
+                  button: "OK",
+                });
+            } else {
+                // If form is valid, check if any field is empty
+                var emptyFields = $(this).find(":input").not(":button, :submit, :reset, :hidden").filter(function () {
+                    return $(this).val() === "";
+                });
+                if (emptyFields.length > 0) {
+                    // If any field is empty, show error alert
+                    e.preventDefault();
+                    swal({
+                        title: "Error!",
+                        text: "Please fill out all required fields.",
+                        icon: "error",
+                        button: "OK",
+                    });
+                } else {
+                    swal({
+                        title: "Success!",
+                        text: "Your category has been created.",
+                        icon: "success",
+                        button: "OK",
+                    });
+                }
+            }
+        });
+    });
+</script>

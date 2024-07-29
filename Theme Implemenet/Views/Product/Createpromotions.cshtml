@@ -1,0 +1,131 @@
+﻿@model Theme_Implemenet.Models.Promotions
+@{
+    ViewData["Title"] = "Createpromotions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+<style>
+    .btn-primary:hover {
+        background-color: blueviolet;
+    }
+</style>
+<body>
+    <div class="container-scroller">
+        <!-- partial:../../partials/_navbar.html -->
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:../../partials/_settings-panel.html -->
+            <!-- partial -->
+            <div class="main-panel" style="width:400%">
+                <div class="content-wrapper container-fluid">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                            Create Discount
+                        </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active" aria-current="page" style="font-size: 15px;"><a href="@Url.Action("Createpromotions","Product")" style="color:black;">Discount List</a></li>
+
+                            </ol>
+                        </nav>
+                    </div>
+                    <form class="forms-sample" method="post">
+                        <div class="row">
+                            <div class="card" style="width:400%">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                                <label style="font-size: 16px;">proName</label>
+                                                <input asp-for="ProName" class="form-control" style="height: 60px;" style="font-size: 16px;" />
+                                                <span asp-validation-for="ProName" class="text-danger"></span>
+                                            </div>
+                                        </div>
+
+                                        @* </div>
+                                        <div class="row">*@
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                                <label style="font-size: 16px;">Value</label>
+                                                <input asp-for="Value" class="form-control" style="height: 60px;" style="font-size: 10px;" />
+                                                <span asp-validation-for="Value" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>                              
+
+                                    @*<div class="float-right">*@
+                                    <div>
+                                        <button type="submit" class="btn btn-primary p-3 mt-5">Submit</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!-- Mirrored from www.urbanui.com/melody/template/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:07:34 GMT -->
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('form').submit(function (e) {
+            // Check form validity
+            var form = $(this)[0];
+            if (!form.checkValidity()) {
+                e.preventDefault();
+                // If form is invalid, show error alert
+                swal({
+                    title: "Error!",
+                    text: "Please fill out all required fields.",
+                    icon: "error",
+                    button: "OK",
+                });
+            } else {
+                // If form is valid, check if any field is empty
+                var emptyFields = $(this).find(":input").not(":button, :submit, :reset, :hidden").filter(function () {
+                    return $(this).val() === "";
+                });
+                if (emptyFields.length > 0) {
+                    // If any field is empty, show error alert
+                    e.preventDefault();
+                    swal({
+                        title: "Error!",
+                        text: "Please fill out all required fields.",
+                        icon: "error",
+                        button: "OK",
+                    });
+                } else {
+                    // If all fields are filled, show success alert
+                    swal({
+                        title: "Success!",
+                        text: "Your promotion has been created.",
+                        icon: "success",
+                        button: "OK",
+                    });
+                }
+            }
+        });
+    });
+</script>
+
+

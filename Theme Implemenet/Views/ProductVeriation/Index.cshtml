@@ -1,0 +1,371 @@
+﻿@model Theme_Implemenet.Models.Modelveriation
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+<body>
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel" style="width:100%">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">   
+                        <div class="row">
+                            <div class="form-group" style="margin-left:200px">
+                                <label class="ml-3">Select Color</label>
+                                <select class="form-control" style="width: 300px" id="selectedColor">
+                                    <option>SelectColor--</option>
+
+                                    @if (ViewBag.color != null)
+                                    {
+                                        foreach (var item in ViewBag.color)
+                                        {
+                                            <option value="@item.productcolorId">@item.productcolorName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group" style="margin-left:200px">
+                                <label class="ml-3">Select Color</label>
+                                <select class="form-control" style="width: 300px" id="selectedSize">
+                                    <option>SelectSize--</option>
+                                    @if (ViewBag.size != null)
+                                    {
+                                        foreach (var item in ViewBag.size)
+                                        {
+                                          <option value="@item.productsizeId">@item.productsizeName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                    
+                            <button type="submit" class="btn btn-primary mr-2 ml-5" onclick="addItem()">Add</button>
+                        </div>
+                    </h3>
+                    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+                    <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+                    <script src="https://code.jquery.com/jquery-3.6.4.min.js" ></script>
+                    <script>
+                        
+                            function addItem() {
+                            var selectedColorId = $("#selectedColor").val();
+                            var selectedSizeId = $("#selectedSize").val();
+                            var costprice = $("#costprice input").val();
+                            var RetailerPrice = $("#RetailerPrice input").val();
+                            //var size = $("#colorColumn input").val();
+                            //var color = $("#sizeColumn input").val();
+                            var qty = $("#Quantity input").val();
+                            var veriationid = $("#veriationid input").val();
+                            var selectedStatus = $("#selectedstatus input").val();
+                            //var productId = $("input[name='productId']").val();
+                            //console.log("productId", productId);
+                           //productId=$("#dataTableBody tr:last").find("#selectedProduct input").val()
+                           // console.log("productId", productId);
+                            //var productId = $("#productIdInput").val(); // Assume productIdInput is the ID of the input field
+                            //console.log("productId", productId);
+
+                            if (selectedColorId !== "SelectColor--" && selectedSizeId !== "SelectSize--") {
+                                var colorName = $("#selectedColor option:selected").text().trim();
+                                var sizeName = $("#selectedSize option:selected").text().trim();
+                                var statusName = $("#selectedstatus ").text().trim();
+                                console.log("statusName", statusName);
+                                var costprice = $("#costprice").text().trim();
+                                var RetailerPrice= $("#RetailerPrice").text().trim();
+                                var qty = $("#Quantity").text().trim();
+                                var veriationid = $("#veriationid").text().trim();
+                                var img = $("#img").text().trim();
+
+                                var combinationExists = false;
+                                $("#dataTableBody tr").each(function () {
+                                    var existingColorName = $(this).find("#colorColumn").text().trim();
+                                    var existingSizeName = $(this).find("#sizeColumn").text().trim();
+                                    var existingStatus = $(this).find("#selectedstatus").text().trim();
+                                    if (existingColorName === colorName && existingSizeName === sizeName) {
+                                        sweetAlert("Oops...", "Size already Exits","error");
+                                        combinationExists = true;
+                                        return false;
+                                    }
+                                });
+                                if (!combinationExists) {  
+                                   
+                                    var newRow = '<tr><td class="veriationid"><input type="hidden" value="0" name="veriationId[]" class="form-control"/></td><td id="colorColumn"><input type="hidden" value="' + selectedColorId + '" name="productcolorId[]" class="form-control"/>' + colorName + '</td><td id="sizeColumn"><input input type="hidden" value="' + selectedSizeId + '" name="productsizeId[]" class="form-control"/>' + sizeName + '</td><td id="costprice"><input type="text" value="0" name="costprice[]" class="form-control"/></td><td id="price"><input type="text" value="0" name="RetailerPrice[]" class="form-control"/></td><td id="qty"><input type="text" value="0" name="Quantity[]" class="form-control"/></td><td id="img"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/832px-No-Image-Placeholder.svg.png"/></td><td id="status"><select class="form-control" name="status[]">'+getStatusOptions()+'</select></td><td></tr>';
+                                    $("#dataTableBody").append(newRow);
+                                    //swal("Good job!", "You clicked the button!", "success")
+                                }
+                            }else{
+                                swal("Please select both color and size.")
+                            }
+                        }
+                        function getStatusOptions() {
+                            var options = '';
+                                var uniqueStatusIds = []; // To store unique status IDs
+
+                        @if (ViewBag.status != null)
+                        {
+                            foreach (var status in ViewBag.status)
+                            {
+                                <text>
+                                        options +='<option value="@status.StatusId">@status.StatusName</option>';
+                                </text>
+                            }
+                        }
+                                return options;
+                    }
+                    </script>
+
+                </div>
+                <!-- Button trigger modal -->
+             @*   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="addimage()">
+                   show images
+                </button>*@
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Select Images</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="modalImageBody">
+                                <!-- Images will be dynamically appended here -->
+                            </div>
+                       @*     <div class="modal-footer">
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+                <form  class="forms-sample" method="post" asp-action="FormPost" enctype="multipart/form-data">
+                   <input type="hidden" name="productId" value="@Model.product1.productId"/>               
+                   <div class="row">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="table-sorter-wrapper col-lg-12 table-responsive">
+                                        <table id="sortable-table-1" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th class="sortStyle">color</th>
+                                                    <th class="sortStyle">Size</th>
+                                                    <th class="sortStyle">Costprice</th>
+                                                    <th class="sortStyle">Retailerprice</th>
+                                                    <th class="sortStyle">Quantity</th>
+                                                    <th class="sortStyle">Image</th>
+                                                    <th class="sortStyle">StatusId</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="dataTableBody">
+                                                    @foreach (var item in Model.productVeriations)
+                                                    {       
+                                                        <tr>
+                                                        <td class="veriationid">
+                                                     @*  @Html.DisplayFor(modelItem => item.veriationId)*@
+                                                         <input type="hidden" value="@Html.DisplayFor(modelitem => item.veriationId)" name="veriationId[]" class="form-control"/>
+                                                        </td>
+                                                   
+                                                        <td id="colorColumn" class="color-name">
+                                                       @Html.DisplayFor(modelItem => item.ProductColor.productcolorName)
+                                                        <input type="hidden" value="@Html.DisplayFor(modelitem => item.productcolorId)" name="productcolorId[]" class="form-control"/>
+                                                        </td>
+                                                        <td id="sizeColumn">
+                                                        @Html.DisplayFor(modelItem => item.ProductSize.productsizeName)
+                                                         <input type="hidden" value="@Html.DisplayFor(modelitem => item.productsizeId)" name="productsizeId[]" class="form-control" />
+                                                        </td>
+                                                        <td id="costprice">
+                                                           @* @Html.DisplayFor(modelItem => item.costprice)*@
+                                                        <input type="type" value="@Html.DisplayFor(modelitem => item.costprice)" name="costprice[]" id="costprice" class="form-control"/>
+                                                        </td>
+                                                            <td id="RetailerPrice">
+                                                        <input type="type" value="@Html.DisplayFor(modelitem => item.RetailerPrice)" name="RetailerPrice[]" id="RetailerPrice" class="form-control"/>
+                                                        </td>
+                                                            <td id="Quantity">
+                                                        <input type="type" value="@Html.DisplayFor(modelitem => item.Quantity)" name="Quantity[]" id="Quantity" class="form-control"/>
+                                                        </td>
+                                                            <td id="img">
+                                                            <img src="~/@item.image" width="500px" height="450px" name="imageUrl" onclick="addimage(@item.veriationId)" data-veriationid="@item.veriationId"  class="img img-@item.productcolorId"/>
+                                                        </td>
+                                                            <td id="status">
+                                                            <div class="form-group">
+                                                                <label class="control-label"></label>
+                                                                    <select class="form-control" name="status[]" id="selectedstatus">
+                                                                    @if (ViewBag.status != null)
+                                                                    {
+                                                                        foreach (var user in ViewBag.status)
+                                                                        {
+                                                                         <option value="@item.StatusId">@user.StatusName</option>
+                                                                        }
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                    @*    <td>
+                                                          <input type="hidden" name="productId" value="@item.productId" />
+
+                                                        </td>*@
+                                                    </tr>
+                                                }
+                                               
+                                            </tbody>
+                                            </table>
+                                            <button type="submit" class="btn btn-primary mt-3" style="margin-left:90%" id="submitButton">
+                                                Submit
+                                            </button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+               </form>
+            </div>
+        </div>
+    </div>
+</body>
+<!-- Mirrored from www.urbanui.com/melody/template/pages/tables/data-table.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:08:41 GMT -->
+</html>
+<script>
+    var selectedVeriationId; // Variable to store the veriationId of the selected image
+
+    function addimage(veriationId) {
+        // Store the veriationId of the clicked image
+        selectedVeriationId = veriationId;
+        // Make an AJAX call to retrieve images
+        $.ajax({
+            type: 'GET',
+            url: '/ProductVeriation/GetImages',
+            dataType: 'json',
+            success: function (data) {
+                var modalBody = $('.modal-body');
+                modalBody.empty();
+                $.each(data, function (index, imageUrl) {
+                    var imgElement = $('<img>', {
+                        src:imageUrl,
+                        height: 100,
+                        width: 100
+                    });
+                    // Attach click event to each image
+                    imgElement.on('click', function () {
+                    selectImage(imageUrl,selectedVeriationId); // Pass complete image URL to selectImage function
+                    });
+                    modalBody.append(imgElement);
+
+                });
+                // Show the modal
+                $('#exampleModal').modal('show');
+            },
+            error: function () {
+                alert('Error loading images.');
+            }
+        });
+    }
+
+    //2nd code
+    function selectImage(selectedImageUrl, veriationId) {
+        // Update the source of the selected image element using the stored veriationId
+        $("img[data-veriationid='" + veriationId + "']").attr("src",selectedImageUrl);
+
+        // Find the color name associated with the selected image
+        var selectedColorName;
+        $("img[data-veriationid='" + veriationId + "']").each(function () {
+            var colorName = $(this).closest("tr").find(".color-name").text().trim();
+            if (!selectedColorName) {
+                selectedColorName = colorName;
+            } else if (selectedColorName.toLowerCase() !== colorName.toLowerCase()) {
+                selectedColorName = null; // Reset if color names don't match
+                return false; // Stop iteration if color names don't match
+            }
+        });
+        // Update images in all rows where the color name matches the selected color
+        if (selectedColorName) {
+            $("#dataTableBody tr").each(function () {
+                var colorColumn = $(this).find(".color-name").text().trim();
+                if (colorColumn.toLowerCase() === selectedColorName.toLowerCase()) {
+                    $(this).find("img").attr("src",selectedImageUrl);
+                }
+            });
+        }
+        // Close the modal
+        $('#exampleModal').modal('hide');
+    }
+   
+        //$('#submitButton').click(function () {
+         $('#submitButton').click(function () {
+            //event.preventDefault(); 
+
+        var imagesToUpdate = [];
+
+        // Loop through all rows in the table
+        $("#dataTableBody tr").each(function () {
+            var imageUrl = $(this).find("img").attr("src");
+            var veriationId = $(this).find("input[name='veriationId[]']").val();
+            imageUrl = fixImageUrl(imageUrl);
+
+            // Add image URL and veriation ID to the array
+            imagesToUpdate.push({VeriationId: veriationId, ImageUrl:imageUrl });
+        });
+        // Make an AJAX call to update images in the database
+        $.ajax({
+            type: 'POST',
+            url: '/ProductVeriation/UpdateImages',
+            contentType: 'application/json',
+            data: JSON.stringify(imagesToUpdate),
+            success: function (response) {
+                console.log(response);
+                swal('Good job!', 'Product Update Successfully!', 'success');
+                setTimeout(function () {
+                    // Close the alert
+                    swal.close();
+                    // Reload the page
+                    location.reload();
+
+                },7000);
+                //return false;
+                location.reload();
+
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+                // Handle error response if needed
+            }
+        });
+        //return false; // Page navigate ko rok dega
+        
+
+    });
+    function fixImageUrl(imageUrl) {
+        // Remove any leading slashes if present
+        imageUrl = imageUrl.replace(/^\/+/, '');
+
+        // Check if the URL is already in the correct format, if not, prepend the base URL
+        if (!imageUrl.startsWith('Image/ProductImages/')) {
+            imageUrl = 'Image/ProductImages/' + imageUrl;
+        }
+        imageUrl = imageUrl.replace(/^\/+/, '');
+        return imageUrl; // Prepend with '/' to ensure it's an absolute path
+        
+    }
+    
+</script>
+
+
+

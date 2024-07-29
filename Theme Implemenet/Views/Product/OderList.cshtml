@@ -1,0 +1,232 @@
+﻿@model Theme_Implemenet.Models.OrderModelView
+
+@{
+    ViewData["Title"] = "OderList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+
+<body>
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel" style="width:100%">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                        OrderList
+                    </h3>
+                    <nav aria-label="breadcrumb">
+                        <form asp-action="OderList">
+                            <div class="row">
+                                <div class="">
+                                    <input type="text" id="search" class="form-control" placeholder="search bar" />
+                                </div>
+                            @*    <div class="">
+                                    <button type="submit" class="btn btn-primary mt-1 ml-2">search</button>
+                                </div>*@
+                            </div>
+                        </form>
+                    </nav>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="table-sorter-wrapper col-lg-12 table-responsive">
+                                        <table id="sortable-table-1" class="table" style="margin-right:10px;">
+                                            <thead>
+                                                <tr>
+                                                    <th class="sortStyle">OrderNo</th>
+                                                    <th class="sortStyle">Email</th>
+                                                    <th class="sortStyle">SubTotal</th>
+                                                    <th class="sortStyle">Shipment</th>
+                                                    <th class="sortStyle">Total</th>
+                                                    <th class="sortStyle">OrderDate</th>
+                                                    <th class="sortStyle">Status</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.Orders)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.OrderId)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Customer.CustEmail)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.subtotal)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.shipping)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.totalamount)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.CreateDate)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Status)
+                                                        </td>             
+                                                        <form method="post" asp-controller="Product">
+                                                        <td>
+                                                       <input type="submit" value="Accept" class="btn btn-success" onclick="acceptedorder(@item.OrderId,event)"/>
+                                                       </td>
+                                                        </form>
+                                                        <td>
+                                                            <input type="submit" value="Deliverd" class="btn btn-warning" onclick="deliverdedorder(@item.OrderId,event)" />
+                                                        </td>
+
+                                                        <td>
+                                                            <input type="submit" value="Cancelled" class="btn btn-danger" onclick="cancelledorder(@item.OrderId,event)"/>
+                                                        </td>
+                                                  
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="Page navigation example" class="float-right mt-3">
+                            <ul class="pagination">
+                                <li class="page-item @(Model.currentpage == 1 ? "disabled" : "")">
+                                <a class="page-link" asp-action="OderList" asp-route-currentpage="@(Model.currentpage - 1)">Previous</a>
+                                </li>
+                                @for (int i = 1; i <= Model.totalpage; i++)
+                                {
+                                <li class="page-item @(i == Model.currentpage ? "active" : "")"><a class="page-link w-100" asp-action="OderList" asp-route-currentpage="@i">@i</a></li>
+
+                                }
+                                <li class="page-item @(Model.currentpage == Model.totalpage ? "disabled" : "")">
+                                <a class="page-link" asp-action="OderList" asp-route-currentpage="@(Model.currentpage + 1)">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    var selectedid;
+    function acceptedorder(id,event) {
+        event.preventDefault();
+        selectedid = id;
+        $.ajax({
+            type: 'POST',
+            url: '/Product/EditStatus',
+            data: { id: selectedid },
+            success: function (result) {
+                swal('Good job!', 'Order is Accepted!', 'success');
+                setTimeout(function () {            
+                console.log("selectedid", selectedid);
+                location.reload();
+                }, 4000)
+            },
+            error: function () {
+                alert('failed to data');
+            }
+        });
+    }
+
+   //function cancelledorder(id, event) {
+   //    event.preventDefault();
+   //     selectedid = id;
+   //     $.ajax({
+   //       type: 'POST',
+   //         url: '/Product/OrderCancelled',
+   //        data: { id: selectedid },
+   //         success: function () {
+   //            swal('Good job!', 'Order Cancelled!', 'success');
+   //             setTimeout(function () {
+   //                 console.log("selectedid", selectedid);
+   //                 location.reload();
+   //             }, 4000)
+   //         },
+   //         error: function () {
+   //             alert('failed to data');
+   //         }
+   //     });
+   //}
+    
+   function cancelledorder(id, event) {
+        event.preventDefault();
+        selectedid = id;
+        $.ajax({
+            type: 'POST',
+            url: '/Product/UserCancelled',
+            data: { id: selectedid },
+            success: function () {
+                swal('Good job!', 'Order Cancelled!', 'success');
+                setTimeout(function () {
+                    console.log("selectedid", selectedid);
+                    location.reload();
+                }, 4000)
+            },
+            error: function () {
+                alert('failed to data');
+            }
+        });
+    }
+
+    function deliverdedorder(id, event) {
+        event.preventDefault();
+        selectedid = id;
+        $.ajax({
+            type: 'POST',
+            url: '/Product/OrderDeliver',
+            data: { id: selectedid },
+            success: function (result) {
+                swal('Good job!', 'Order Deliver!', 'success');
+                setTimeout(function () {
+                    console.log("selectedid", selectedid);
+                    location.reload();
+                },4000)
+            },
+            error: function () {
+                alert('failed to data');
+            }
+        });
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#search").keyup(function () {
+            var typevalue = $(this).val().toLowerCase();
+            $("tbody tr").each(function () {
+                if ($(this).text().search(new RegExp(typevalue, "i")) < 0) {
+                    $(this).fadeOut();
+                } else {
+                    $(this).show();
+                }
+            });
+        });
+    });
+</script>

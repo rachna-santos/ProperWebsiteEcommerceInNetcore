@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "Contact";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <h5>Cancellation and Return Policy</h5>
+            <p>Please ensure that the returns form is sent back to us along with the items you are returning. We will process your refund as soon as possible and in any case within 15 days of receiving your returned items. We will notify you by e-mail when your refund has been processed.</p>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<!-- Breadcrumb End -->
+<!-- Contact Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-lg-7 mb-5">
+                <div id="success"></div>
+            <form method="post" asp-action="Contact">
+                <div>
+                        <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">
+                            Cancelled Order
+                        </button>
+                    </div>
+                </form>
+        </div>
+    </div>
+</div>
+<!-- Contact End -->

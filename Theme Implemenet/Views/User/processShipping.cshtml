@@ -1,0 +1,658 @@
+﻿@model CustomerModelviese
+@using Microsoft.Extensions.Options
+@inject IOptions<StripeSettings> stripe
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+
+
+@{
+    ViewData["Title"] = "processShipping";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+
+    .form-group small {
+        color: var(--error-color);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        visibility: hidden;
+    }
+
+    .form-group.success input {
+        border-color: var(--succes-color);
+    }
+
+    .form-group.error input {
+        border-color: var(--error-color);
+    }
+
+    .form-group.error small {
+        visibility: visible;
+    }
+
+    .borderform{
+        border-radius:50px;
+        padding:30px;
+    }
+
+    .btn btn-primary{
+        border-radius: 20px;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        }
+  
+</style>
+<!-- Breadcrumb Start -->
+@{
+
+    //int? userId = ViewContext.HttpContext.Request.Cookies["UserId"] != null ? int.Parse(ViewContext.HttpContext.Request.Cookies["UserId"]) : (int?)null;
+    string userId = ViewContext.HttpContext.Request.Cookies["UserId"];
+
+
+}
+
+<div class="container-fluid">
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="@Url.Action("Index","User")">Home</a>
+                <a class="breadcrumb-item text-dark" href="#">Shop</a>
+                <a href="@Url.Action("CheckOut","User")"><span class="breadcrumb-item active">Checkout</span></a>
+            </nav>
+        </div>
+        <div class="ml-3">
+            @if (userId!=null)
+        {
+                <h6>@User.Identity.Name</h6>
+        }
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Checkout Start -->
+
+<div class="container-fluid">
+    <form method="post" asp-action="processShipping" id="form"> 
+        <input type="hidden" name="cardnumber"/>
+        <ul class="errorMessages"></ul>
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3"></span></h5>
+                <div class="bg-light p-30 mb-5">
+                    <h5>Add Customer Details</h5><br /><br />
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label for="CustName">Name</label>
+                            <input type="text" name="name" id="CustName" class="form-control" value="@Model.Name"><br />
+                            <small style="color:red;">Error Message</small>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Email</label>
+                            <input type="text" name="email" id="email" class="form-control" value="@Model.Email"><br />
+                            <small style="color:red;">Error Message</small>
+
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Password</label>
+                            <input type="text" name="password" id="password" class="form-control" value="@Model.password"><br />
+                            <small style="color:red;">Error Message</small>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Mobile No</label>
+                            <input type="text" name="number" id="number" class="form-control" value="@Model.number"><br />
+                            <small style="color:red;">Error Message</small>
+
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Address</label>
+                            <input type="text" name="address" id="address" class="form-control" value="@Model.address"><br />
+                            <small style="color:red;">Error Message</small>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+            @*cardshowmodal*@
+           @*<div class="modal fade" id="exampleModal" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content borderform">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Card Payment</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form id="paymentform">
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="emailInput" class="form-label">Email</label>
+                                        <input type="text" name="emailInput" id="emailInput" placeholder="Email" class="form-control mb-2" /><br />
+                                        <small style="color:red;">Error Message</small>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" id="name" class="form-control" name="name"/><br />
+                                        <small style="color:red;">Error Message</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="phone" class="form-label">Phonenumber</label>
+                                        <input type="text" id="phone" class="form-control" name="phone"/><br/>
+                                        <small style="color:red;">Error Message</small>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="cardNumberInput" class="form-label">Card</label>
+                                        <input type="text" id="cardNumberInput" class="form-control" name="cardNumberInput" />
+                                        <small style="color:red;">Error Message</small>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="expirymonth" class="form-label">ExpiryMonth</label>
+                                        <input type="text" id="expirymonth" class="form-control" name="expirymonth"/><br/>
+                                        <small style="color:red;">Error Message</small>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="expiryyear" class="form-label">ExpiryYear</label>
+                                        <input type="text" id="expiryyear" class="form-control" name="expiryyear"/><br/>
+                                        <small style="color:red;">Error Message</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                     <label for="cvc" class="form-label">CVC</label>
+                                     <input type="text" id="cvc" class="form-control" name="cvc"/><br/>
+                                     <small style="color:red;">Error Message</small>
+                                    </div>
+                                </div>
+                                <button id="pay-button" class="btn btn-primary w-100 mt-3 p-2" style="border-radius:30px">Pay</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+*@
+           @* <script src="//checkout.stripe.com/v2/checkout.js"
+                    class="stripe-button" data-key='pk_test_51PQp8FP7QCW6DRnqCQYaZRAgDy9P2HKXuv6XL5mpEPrqOvULwP1651jHiXe4jzerBAGt1zQLF4yXIZIUHYD6DuH300xA7FKyaI'
+                    data-locate="auto" data-description="sample carge" data-amount="500">
+
+            </script>*@
+
+                <div class="col-lg-4">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Order Total</span></h5>
+                <div class="bg-light p-30 mb-5">
+                    @if (ViewBag.cart != null && ViewBag.cart.Count > 0)
+                    {
+                        @foreach (var item in ViewBag.cart)
+                        {
+                            <div class="border-bottom">
+                                <br />
+                                <h6 class="mb-3">Products</h6>
+                                <div class="d-flex justify-content-between">
+                                    <img src="~/@item.image" alt="" style="width: 50px;">
+                                    <p>$@item.bill</p>
+                                </div>
+
+                            </div>
+                        }
+                    }
+                    <div class="border-bottom pt-3 pb-2">
+                        <div class="d-flex justify-content-between mb-3">
+
+                            <h6>Subtotal</h6>
+                            <h6>$@ViewData["TotalBill"]</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">DiscountCharges</h6>
+                            <h6 class="font-weight-medium">@ViewData["Promotion"]%</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">shipping</h6>
+                            <h6 class="font-weight-medium">$300</h6>
+                        </div>
+                    </div>
+
+                    @if (ViewData["TotalBill"] != null && ViewData["ShippingAmount"] != null)
+                    {
+                        decimal totalBill = (decimal)ViewData["TotalBill"];
+                        decimal shippingAmount = (decimal)ViewData["ShippingAmount"];
+                        <div class="pt-2">
+                            <div class="d-flex justify-content-between mt-2">
+                                <h5>Total</h5>
+                                <h5>$@(totalBill + shippingAmount)</h5>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="mb-5">
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
+                   <div class="bg-light p-30">
+                        
+                        @foreach (var item in ViewBag.payment)
+                        {
+                            <div class="form-group">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input payment-radio" name="PaymentTypeId" id="paypal-@item.PaymentTypeId" value="@item.PaymentTypeId">
+                                    <label class="custom-control-label" for="paypal-@item.PaymentTypeId">@item.Type</label>
+                                    <small style="color:red;">Error Message</small>
+                                </div>
+                            </div>
+                        }
+
+                      <div id="payment-form-section" style="background-color:lightgray;padding:10px;">
+                            <br /><br />
+                        <form id="paymentform">
+                            <div class="row">                     
+                                <div class="col-12 form-group">
+                                        <label for="cardNumberInput" class="form-label" style="color:black;">Card</label>
+                                        <input type="text" id="cardNumberInput" class="form-control" name="cardNumberInput" /><br />
+                                    <small style="color:red;">Error Message</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                        <label for="expirymonth" class="form-label" style="color:black;">ExpiryMonth</label>
+                                    <input type="text" id="expirymonth" class="form-control" name="expirymonth" /><br />
+                                    <small style="color:red;">Error Message</small>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                        <label for="expiryyear" class="form-label" style="color:black;">ExpiryYear</label>
+                                    <input type="text" id="expiryyear" class="form-control" name="expiryyear" /><br />
+                                    <small style="color:red;">Error Message</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                        <label for="cvc" class="form-label" style="color:black;">CVC</label>
+                                    <input type="text" id="cvc" class="form-control" name="cvc" /><br />
+                                    <small style="color:red;">Error Message</small>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                        <button id="place-order-btn" class="btn btn-block btn-primary font-weight-bold py-3">Place Order</button>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
+@*formvalidation*@
+<script>
+    const form = document.getElementById('form');
+    const CustName = document.getElementById('CustName');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const number = document.getElementById('number');
+    const address = document.getElementById('address');
+    const payment = document.getElementById('paypal');
+
+    // Show input error messages
+    function showError(input, message) {
+        const formControl = input.parentElement;
+        formControl.className = 'col-md-6 form-group error';
+        const small = formControl.querySelector('small');
+        small.innerText = message;
+    }
+
+    // Show success color
+    function showSuccess(input) {
+        const formControl = input.parentElement;
+        formControl.className = 'col-md-6 form-group success';
+    }
+
+    // Check email is valid
+    function checkEmail(input) {
+        const re = /^([\w\.\+]{1,})([^\W])@@([\w]{1,})(\.[\w]{1,})+$/;
+        if (input.value.trim() === '') {
+            showError(input, 'Email is required');
+        } else if (re.test(input.value.trim())) {
+            showSuccess(input);
+        } else {
+            showError(input, 'Email is not valid');
+        }
+    }
+    
+    function checkPassword(input) {
+        const password = input.value.trim();
+        if (password === '') {
+            showError(input, 'Password is required');
+        } else if (password.length < 10) {
+            showError(input, 'Password must be at least 10 characters ');
+        } else {
+            showSuccess(input);
+        }
+    }
+    // Check required fields
+    function checkRequired(inputArr) {
+        inputArr.forEach(function (input) {
+            if (input.value.trim() === '') {
+                showError(input, `${getFieldName(input)} is required`);
+            } else {
+                showSuccess(input);
+            }
+        });
+    }
+
+    // Check input Length
+    function checkLength(input, min, max) {
+        if (input.value.length < min) {
+            showError(input, `${getFieldName(input)} must be at least ${min} characters`);
+        } else if (input.value.length > max) {
+            showError(input, `${getFieldName(input)} must be less than ${max} characters`);
+        } else {
+            showSuccess(input);
+        }
+    }
+
+    // Get FieldName
+    function getFieldName(input) {
+        return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+    }
+
+    // Event Listeners
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const requiredElements =[CustName, email, password, number, address, payment].filter(Boolean);
+
+        checkRequired(requiredElements);
+        checkLength(CustName, 3, 15);
+        checkPassword(password, 8, 25);
+        checkEmail(email);
+
+        if (document.querySelectorAll('.form-group.error').length > 0) {
+            // If there are errors, prevent form submission
+            return false;
+        }
+
+        // If no errors, submit the form
+        form.submit();
+    });
+</script>
+
+@*
+paymentgetmodal*@
+
+<script>
+    $(document).ready(function () {
+        $('input[name="PaymentTypeId"]').on('change', function () {
+            var selectedPaymentType = $(this).val();
+            // Assuming '1' is the ID for card payment type
+            if (selectedPaymentType == '2') {
+                $('#card-payment-form').modal('show');
+            }
+            else{
+                $('#card-payment-form').hide();
+        }
+
+        });
+
+    });
+</script>
+
+@*showformclickcard*@
+<script>
+    $(document).ready(function () {
+        $('#payment-form-section').hide(); // Hide the form initially
+
+        $('.payment-radio').on('change', function () {
+            var selectedPaymentType = $(this).val();
+
+            // Assuming '2' is the ID for card payment type
+            if (selectedPaymentType == '2') {
+                $('#payment-form-section').show(); // Show the form if card payment is selected
+            } else {
+                $('#payment-form-section').hide(); // Hide the form for other payment types
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#cardNumberInput,').on('input', function () {
+            var cardNumber = $(this).val().replace(/\s/g, ''); // Remove spaces from card number
+            var cardType = detectCardType(cardNumber); // Function to detect card type
+
+            // Update card icon
+            updateCardIcon(cardType);
+        });
+    });
+
+    // Function to detect card type based on card number
+    function detectCardType(cardNumber) {
+        // Define regex patterns for Visa, Mastercard, etc.
+        var visaPattern = /^4\d{12}(\d{3})?$/;
+        var mastercardPattern = /^5[1-5]\d{14}$/;
+
+        if (visaPattern.test(cardNumber)) {
+            return 'visa';
+        } else if (mastercardPattern.test(cardNumber)) {
+            return 'mastercard';
+        } else {
+            return 'unknown'; // Handle other card types or invalid numbers
+        }
+    }
+
+    // Function to update card icon based on card type
+    function updateCardIcon(cardType) {
+        var iconContainer = $('#card-icon-container');
+        iconContainer.empty(); // Clear previous icon
+
+        if (cardType === 'visa') {
+            iconContainer.append('<img src="visa_icon.png" alt="Visa" class="card-icon">');
+        } else if (cardType === 'mastercard') {
+            iconContainer.append('<img src="mastercard_icon.png" alt="Mastercard" class="card-icon">');
+        } else {
+            // Handle unknown or unsupported card types
+        }
+    }
+</script>
+
+@*<script>
+    // Stripe API key
+    var stripe = Stripe('pk_test_51PQp8FP7QCW6DRnqCQYaZRAgDy9P2HKXuv6XL5mpEPrqOvULwP1651jHiXe4jzerBAGt1zQLF4yXIZIUHYD6DuH300xA7FKyaI');
+
+    // Create an instance of elements
+    var elements = stripe.elements();
+
+    // Create an instance of card element
+    var card = elements.create('card', {
+        style: {
+            base: {
+                fontSize: '16px',
+                color: '#32325d',
+            }
+        }
+    });
+
+    // Mount the card element to your DOM
+    card.mount('#card-element');
+
+    // Handle form submission
+    var form = document.getElementById('paymentform');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function (result) {
+            if (result.error) {
+                // Display error message to user
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                // Send token to your server
+                stripeTokenHandler(result.token);
+            }
+        });
+    });
+
+    // Function to handle token submission to server
+    function stripeTokenHandler(token) {
+        // Add token to form and submit
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        // Submit form
+        form.submit();
+    }
+</script>
+*@@*cardvalidation*@
+
+@*<script>
+    const modalshow = document.getElementById('paymentform');
+    const name = document.getElementById('name');
+    const Email = document.getElementById('emailInput');
+    const phone = document.getElementById('phone');
+    const cardnumber = document.getElementById('cardNumberInput');
+    const expirymonth = document.getElementById('expirymonth');
+    const expiryyear = document.getElementById('expiryyear');
+    const cvc = document.getElementById('cvc');
+
+    // Show input error messages
+    function showError(input, message) {
+        const formControl = input.parentElement;
+        formControl.className = 'col-md-6 form-group error';
+        const small = formControl.querySelector('small');
+        small.innerText = message;
+    }
+
+    // Show success color
+    function showSuccess(input) {
+        const formControl = input.parentElement;
+        formControl.className = 'col-md-6 form-group success';
+    }
+
+    // Check email is valid
+    function checkEmail(input) {
+        const re = /^([\w\.\+]{1,})([^\W])@@([\w]{1,})(\.[\w]{1,})+$/;
+        if (input.value.trim() === '') {
+            showError(input, 'Email is required');
+        } else if (re.test(input.value.trim())) {
+            showSuccess(input);
+        } else {
+            showError(input, 'Please enter a valid Email');
+        }
+    }
+
+    // Check phonenumber is valid
+    function checkPhone(input) {
+        var re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+        if (input.value.trim() === '') {
+            showError(input, 'phone number is required');
+        } else if (re.test(input.value.trim())) {
+            showSuccess(input);
+        } else {
+            showError(input, 'Please enter a valid phone number');
+        }
+    }
+
+    // Check required fields
+    function checkRequired(inputArr) {
+        inputArr.forEach(function (input) {
+            if (input.value.trim() === '') {
+                showError(input, `${getFieldName(input)} is required`);
+            } else {
+                showSuccess(input);
+            }
+        });
+    }
+
+    // Check input Length
+    function checkLength(input, min, max) {
+        if (input.value.length < min) {
+            showError(input, `${getFieldName(input)} must be at least ${min} characters`);
+        } else if (input.value.length > max) {
+            showError(input, `${getFieldName(input)} must be less than ${max} characters`);
+        } else {
+            showSuccess(input);
+        }
+    }
+
+    // Get FieldName
+    function getFieldName(input) {
+        return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+    }
+
+    // Event Listeners
+    modalshow.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const requiredElements = [name, Email, phone, cardnumber,expirymonth,expiryyear,cvc].filter(Boolean);
+
+        checkRequired(requiredElements);
+        checkLength(name, 3, 15);
+        checkEmail(Email);
+        checkPhone(phone);
+
+        if (document.querySelectorAll('.form-group.error').length > 0) {
+            // If there are errors, prevent form submission
+            return false;
+        }
+
+        // If no errors, submit the form
+        modalshow.submit();
+    });
+</script>*@
+
+@*
+paybutton hidden*@
+@*<script>
+    // Function to check if any form field is filled
+    function checkForm() {
+        var email = document.getElementById('emailInput').value.trim();
+        var name = document.getElementById('name').value.trim();
+        var phone = document.getElementById('phone').value.trim();
+        //var amount = document.getElementById('amount').value.trim();
+        const cardnumber = document.getElementById('cardNumberInput').value.trim();
+        const expirymonth = document.getElementById('expirymonth').value.trim();
+        const expiryyear = document.getElementById('expiryyear').value.trim();
+        const cvc = document.getElementById('cvc').value.trim();
+
+
+        var payButton = document.getElementById('pay-button');
+
+        if (email === '' && name === '' && phone === '' && cardnumber === ''  && expirymonth=== '' && expiryyear=== '' && cvc==='') {
+            payButton.removeAttribute('disabled');
+        } else {
+            payButton.setAttribute('disabled', 'disabled');
+        }
+    }
+
+    // Event listeners to check the form on input change
+    var formInputs = document.querySelectorAll('#paymentform input');
+    formInputs.forEach(function (input) {
+        input.addEventListener('input', checkForm);
+    });
+
+    // Initial check when the page loads
+    checkForm();
+</script>*@

@@ -1,0 +1,83 @@
+﻿@model Theme_Implemenet.Models.Country
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper">
+            <div class="main-panel" style="width:400%">
+                <div class="content-wrapper container-fluid">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                            Country Form
+                        </h3>
+                        @*<nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Forms</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Form elements</li>
+                        </ol>
+                        </nav>*@
+                    </div>
+                    <div class="row">
+                        <div class="card" style="width:400%">
+                            <div class="card-body">
+                                <h4 class="card-title">Edit form</h4>
+                                @* <p class="card-description">
+                                Basic form elements
+                                </p>*@
+                                <form class="forms-sample" method="post">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <label asp-for="countryId" class="control-label"></label>
+                                        <input asp-for="countryId" class="form-control" />
+                                        <span asp-validation-for="countryId" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">countryName</label>
+                                        <input asp-for="countryName" class="form-control" id="exampleInputName1" placeholder="countryName">
+                                        <span asp-validation-for="countryName" class="text-danger"></span>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary mr-2">Save</button>
+
+                                    <div>
+                                        <br />
+                                        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        @*<footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2018 <a href="https://www.urbanui.com/" target="_blank">Urbanui</a>. All rights reserved.</span>
+        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="far fa-heart text-danger"></i></span>
+        </div>
+        </footer>*@
+        <!-- partial -->
+    </div>
+
+</body>
+</html>

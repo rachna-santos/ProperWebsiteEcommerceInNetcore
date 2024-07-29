@@ -1,0 +1,137 @@
+﻿@model Theme_Implemenet.Models.PomotionmappingViewModel
+@{
+    ViewData["Title"] = "promotionMappingIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+
+<body>
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel" style="width:100%">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                        Discount list
+
+                    </h3>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page" style="font-size: 15px;"><a href="@Url.Action("promotionMapping","Product")" style="color:black;">Create Promotion</a></li>
+                            <br />
+                        </ol>
+                        <form>
+                            <div class="row">
+                                <div class="">
+                                    <input name="term" class="form-control" placeholder="search bar" />
+                                </div>
+                                <div class="">
+                                    <button type="submit" class="btn btn-primary mt-1 ml-2">search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </nav>
+
+                </div>
+                <div class="row mt-5">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="table-sorter-wrapper col-lg-12 table-responsive">
+                                        <table id="sortable-table-1" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="sortStyle">Product</th>
+                                                    <th class="sortStyle">Discount</th>
+                                                    <th class="sortStyle">Status</th>
+                                                    <th class="sortStyle">Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.Promotionmapping)
+                                                {
+                                                    <tr>
+
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Product.productName)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Promotions.Value)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Promotions.Status.StatusName)
+                                                        </td>
+
+                                                        <td>
+                                                            <a asp-action="promotionMappingEdit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                                                        </td>
+                                                        @*   <td>
+                                                    <form asp-action="Delete" asp-route-id="@item.categoryId" method="post">
+                                                    <input type="submit" class="btn btn-primary" value="Delete" onclick="return confirm('are you show you want to delete data')" />
+                                                    </form>
+                                                    </td>*@
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       <nav aria-label="Page navigation example" class="float-right mt-3">
+                            <ul class="pagination">
+
+                                <li class="page-item @(Model.currentpage == 1 ? "disabled" : "")">
+                                    <a class="page-link" asp-action="promotionMappingIndex" asp-route-currentpage="@(Model.currentpage - 1)">Previous</a>
+                                </li>
+
+
+
+                                @for (int i = 1; i <= Model.totalpage; i++)
+                                {
+
+                                    <li class="page-item @(i == Model.currentpage ? "active" : "")"><a class="page-link w-100" asp-action="promotionMappingIndex" asp-route-currentpage="@i">@i</a></li>
+
+
+                                }
+                                <li class="page-item @(Model.currentpage == Model.totalpage ? "disabled" : "")">
+                                    <a class="page-link" asp-action="promotionMappingIndex" asp-route-currentpage="@(Model.currentpage + 1)">Next</a>
+                                </li>
+
+
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <!-- End custom js for this page-->
+</body>
+
+
+<!-- Mirrored from www.urbanui.com/melody/template/pages/tables/data-table.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:08:41 GMT -->
+</html>
+
+

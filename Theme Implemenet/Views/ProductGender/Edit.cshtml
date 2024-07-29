@@ -1,0 +1,222 @@
+﻿@model Theme_Implemenet.Models.Productgender
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+<style>
+
+
+    .row {
+        margin-top: 5px;
+    }
+
+    .btn-primary:hover {
+        background-color: blueviolet;
+    }
+</style>
+<body>
+    <div class="container-scroller">
+        <!-- partial:../../partials/_navbar.html -->
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:../../partials/_settings-panel.html -->
+            <!-- partial -->
+            <div class="main-panel" style="width:400%">
+                <div class="content-wrapper container-fluid">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                          Update Gender
+                        </h3>
+                         <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                         <li class="breadcrumb-item active" aria-current="page" style="font-size: 15px;"><a href="@Url.Action("Index","ProductGender")" style="color:black;">Gender List</a></li>
+
+                        </ol>
+                        </nav>
+                    </div>
+                    <form class="forms-sample" method="post" enctype="multipart/form-data">
+
+                    <div class="row">
+                        <div class="card" style="width:400%">
+                                <input type="hidden" name="productgenderId" value="@Model.productgenderId" />
+
+                            <div class="card-body">
+                                
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label style="font-size:16px;"> Gender</labe>
+                                                <input asp-for="productgenderName" class="form-control" style="height: 60px;" style="font-size: 16px;" />
+                                                <span asp-validation-for="productgenderName" class="text-danger"></span>
+                                            </div>
+                                    </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label style="font-size: 16px;">Title</label>
+                                                <input asp-for="title" class="form-control" style="height: 60px;" style="font-size: 16px;" />
+                                                <span asp-validation-for="title" class="text-danger"></span>
+                                            </div>
+                                    
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label style="font-size: 16px;">Description</label>
+                                                <input asp-for="description" class="form-control" style="height: 60px;" style="font-size: 16px;" />
+                                                <span asp-validation-for="description" class="text-danger"></span>
+                                            </div>
+                                    </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+
+                                            <div class="form-group">
+                                                <label style="font-size: 16px;">Tag</label>
+                                                <input asp-for="tag" class="form-control" />
+                                                <span asp-validation-for="tag" class="text-danger"></span>
+                                            </div>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label style="font-size: 16px;">Keyword</label>
+                                                <input asp-for="Keyword" class="form-control" style="height: 60px;" style="font-size: 16px;" />
+                                                <span asp-validation-for="Keyword" class="text-danger"></span>
+                                            </div>
+                                    </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label style="font-size: 16px;">Status</label>
+                                                <select asp-for="StatusId" class="form-control">
+                                                    @if (ViewBag.status != null)
+                                                    {
+                                                        foreach (var item in ViewBag.status)
+                                                        {
+                                                            <option value="@item.StatusId">@item.StatusName</option>
+
+                                                        }
+                                                    }
+                                                </select>
+                                                <span asp-validation-for="StatusId" class="text-danger"></span>
+                                            </div>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="card mt-2 w-100" style="margin-left: auto; margin-right: 0;">
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label style="font-size: 16px;">Image</label>
+                                                        <hr />
+                                                        <br />
+                                                        <input type="file" name="file" class="form-control mt-1" style="height: 60px;" style="font-size: 16px;" onchange="displaySelectedImage(this)">
+                                                        <img id="selectedImage" src="~/@Model.imagepath" width="200px" height="200px" class="ml-5 mt-4" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    <button type="submit" class="btn btn-primary mr-2 mt-5 p-3">Save</button>
+                                  
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        @*<footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2018 <a href="https://www.urbanui.com/" target="_blank">Urbanui</a>. All rights reserved.</span>
+        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="far fa-heart text-danger"></i></span>
+        </div>
+        </footer>*@
+        <!-- partial -->
+    </div>
+@*
+    <script src="~/Adminsite/vendors/js/vendor.bundle.base.js"></script>
+    <script src="~/Adminsite/vendors/js/vendor.bundle.addons.js"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="~/Adminsite/js/off-canvas.js"></script>
+    <script src="~/Adminsite/js/hoverable-collapse.js"></script>
+    <script src="~/Adminsite/js/misc.js"></script>
+    <script src="~/Adminsite/js/settings.js"></script>
+    <script src="~/Adminsite/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="~/Adminsite/js/file-upload.js"></script>
+    <script src="~/Adminsite/js/typeahead.js"></script>
+    <script src="~/Adminsite/js/select2.js"></script>*@
+</body>
+<!-- Mirrored from www.urbanui.com/melody/template/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:07:34 GMT -->
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+    function displaySelectedImage(input) {
+        var selectedImage = document.getElementById('selectedImage');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                selectedImage.src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+<script>
+    // Submit button par click hone par form submit event handle karna
+    $('form').submit(function (e) {
+        // Default form submission ko rokna
+        e.preventDefault();
+
+        // Submit se pehle alert show karna
+        e.preventDefault();
+
+        // Submit se pehle alert show karna
+        Swal.fire({
+            title: 'Success!',
+            text: 'Category updated successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+        // Form ko submit karna
+        var form = this;
+        var formData = new FormData(form);
+        $.ajax({
+            type: form.method,
+            url: form.action,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                // Success ke baad page ko navigate karna
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Error handling
+                //swal('Good job!', 'Product Update Successfully!', 'error');
+
+            }
+        });
+    });
+</script>

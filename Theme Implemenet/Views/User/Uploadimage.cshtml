@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixelarity Image Upload</title>
+    <link rel="stylesheet" href="~/newfolder/pixelarity.css">
+    <script src="~/newfolder/path/to/cdn/jquery.min.js"></script>
+    <!-- With Face Detection -->
+    <script src="~/newfolder/pixelarity-face.min.js"></script>
+    <!-- Without Face Detection -->
+    <script src="~/newfolder/pixelarity-faceless.min.js"></script>
+</head>
+<body>
+    <input id="file" type="file">
+    <br />
+    <img id="result" alt="Image result will appear here">
+
+    <script>
+        // with face detection
+        $(document).ready(function () {
+            $("#file").change(function (e) {
+                var img = e.target.files[0];
+                if (!pixelarity.open(img, false, function (res, faces) {
+                    $("#result").attr("src", res);
+                    $(".face").remove();
+                    // Looping through the faces returned
+                    for (var i = 0; i < faces.length; i++) {
+                        // Do something with the faces
+                    }
+                }, "jpg", 0.7, true)) {
+                    alert("Whoops! That is not an image!");
+                }
+            });
+        });
+
+        // without face detection
+        $(document).ready(function () {
+            $("#file").change(function (e) {
+                var img = e.target.files[0];
+                if (!pixelarity.open(img, false, function (res) {
+                    $("#result").attr("src", res);
+                }, "jpg", 0.7)) {
+                    alert("Whoops! That is not an image!");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

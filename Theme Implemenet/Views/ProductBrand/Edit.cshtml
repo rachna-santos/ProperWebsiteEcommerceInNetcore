@@ -1,0 +1,143 @@
+﻿@model Theme_Implemenet.Models.ProductBrand
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:../../partials/_navbar.html -->
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:../../partials/_settings-panel.html -->
+            <!-- partial -->
+            <div class="main-panel" style="width:400%">
+                <div class="content-wrapper container-fluid">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                            ProductBrand Form
+                        </h3>
+                        @*  <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Forms</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Form elements</li>
+                        </ol>
+                        </nav>*@
+                    </div>
+                    <div class="row">
+                        <div class="card" style="width:400%">
+                            <div class="card-body">
+                                <h4 class="card-title">Edit form</h4>
+                                @* <p class="card-description">
+                                Basic form elements
+                                </p>*@
+                                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <label asp-for="productbrandId" class="control-label"></label>
+                                        <input asp-for="productbrandId" class="form-control" />
+                                        <span asp-validation-for="productbrandId" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">productbrandName</label>
+                                        <input asp-for="productbrandName" class="form-control" id="exampleInputName1">
+                                        <span asp-validation-for="productbrandName" class="text-danger"></span>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="productbrandphoneNo" class="control-label"></label>
+                                        <input asp-for="productbrandphoneNo" class="form-control" />
+                                        <span asp-validation-for="productbrandphoneNo" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="title" class="control-label"></label>
+                                        <input asp-for="title" class="form-control" />
+                                        <span asp-validation-for="title" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="description" class="control-label"></label>
+                                        <input asp-for="description" class="form-control" />
+                                        <span asp-validation-for="description" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="tag" class="control-label"></label>
+                                        <input asp-for="tag" class="form-control" />
+                                        <span asp-validation-for="tag" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="StatusId" class="control-label"></label>
+                                        <select asp-for="StatusId" class="form-control">
+                                            @if (ViewBag.status != null)
+                                            {
+                                                foreach (var item in ViewBag.status)
+                                                {
+                                                    <option value="@item.StatusId">@item.StatusName</option>
+
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="StatusId" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>File upload</label>
+                                        <input type="file" name="file" class="file-upload-default">
+                                        <div class="input-group col-xs-12">
+                                            <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                            <span class="input-group-append">
+                                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mr-2">Save</button>
+                                    <br />
+                                    <div>
+                                        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        @*<footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2018 <a href="https://www.urbanui.com/" target="_blank">Urbanui</a>. All rights reserved.</span>
+        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="far fa-heart text-danger"></i></span>
+        </div>
+        </footer>*@
+        <!-- partial -->
+    </div>
+@*
+    <script src="~/Adminsite/vendors/js/vendor.bundle.base.js"></script>
+    <script src="~/Adminsite/vendors/js/vendor.bundle.addons.js"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="~/Adminsite/js/off-canvas.js"></script>
+    <script src="~/Adminsite/js/hoverable-collapse.js"></script>
+    <script src="~/Adminsite/js/misc.js"></script>
+    <script src="~/Adminsite/js/settings.js"></script>
+    <script src="~/Adminsite/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="~/Adminsite/js/file-upload.js"></script>
+    <script src="~/Adminsite/js/typeahead.js"></script>
+    <script src="~/Adminsite/js/select2.js"></script>*@
+</body>
+<!-- Mirrored from www.urbanui.com/melody/template/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:07:34 GMT -->
+</html>

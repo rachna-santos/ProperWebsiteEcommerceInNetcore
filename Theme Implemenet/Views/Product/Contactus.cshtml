@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Theme_Implemenet.Models.ContactUs>
+@{
+    ViewData["Title"] = "Contactus";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from www.urbanui.com/melody/template/pages/tables/data-table.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:08:40 GMT -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+
+<body>
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel" style="width:100%">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                        Contactlist
+                    </h3>
+                    <nav aria-label="breadcrumb">                      
+                        <form>
+                            <div class="row">
+                                <div class="">
+                                    <input name="term" class="form-control" placeholder="search bar" />
+                                </div>
+                                <div class="">
+                                    <button type="submit" class="btn btn-primary mt-1 ml-2">search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </nav>
+                </div>      
+                <div class="row mt-5">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="table-sorter-wrapper col-lg-12 table-responsive">
+                                        <table id="sortable-table-1" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="sortStyle">Description</th>
+                                                    <th class="sortStyle">OrderId</th>
+                                                    <th class="sortStyle">Email</th>
+                                                     <th>OrderDate</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Description)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Order.OrderId)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Order.Customer.CustEmail)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Order.CreateDate)
+                                                        </td>
+                                                         <td>
+                                                          @Html.DisplayFor(modelItem => item.Order.Status)
+                                                         </td>
+                                                     @*   <td>
+
+                                                            <a asp-action="PaymentList" asp-controller="Product" asp-route-id="@item.CustId" class="btn btn-primary">Payment</a>
+
+                                                        </td>*@
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <!-- End custom js for this page-->
+</body>
+
+
+<!-- Mirrored from www.urbanui.com/melody/template/pages/tables/data-table.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:08:41 GMT -->
+</html>
+

@@ -1,0 +1,145 @@
+﻿@model Theme_Implemenet.Models.CompanyModel
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from www.urbanui.com/melody/template/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:07:32 GMT -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+<style>
+    .btn-primary:hover {
+        background-color: blueviolet;
+    }
+</style>
+<body>
+  
+        <div class="container-fluid page-body-wrapper">
+       
+            <div class="main-panel" style="width:400%">
+                <div class="content-wrapper container-fluid">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                           Create Company
+                        </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active" aria-current="page" style="font-size: 15px;"><a href="@Url.Action("Index","Company")" style="color:black;">Company List</a></li>
+
+                            </ol>
+                        </nav>
+                    </div>
+                    <form class="forms-sample" method="post">
+
+                    <div class="row">
+                        <div class="card" style="width:400%">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6 col-sm-12 col-lg-6">
+                                    <div class="form-group" style="margin-top:30px;">
+                                        <label style="font-size: 16px;">CompanyName</label>
+                                        <input asp-for="CompanyName" class="form-control" style="height: 60px;font-size: 16px;" />
+                                        <span asp-validation-for="CompanyName" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                    <div class="col-6 col-sm-12 col-lg-6">
+
+                                        <div class="form-group" style="margin-top:30px;">
+                                                <label style="font-size: 16px;">ContactNo</label>
+                                                <input asp-for="ComapnyContactNo" class="form-control form-control-lg border-left-0" class="form-control" style="height: 60px;font-size: 16px;" />
+                                        <span asp-validation-for="ComapnyContactNo" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="col-6 col-sm-12 col-lg-6">
+                                        <div class="form-group" style="margin-top:10px;">
+                                                <label style="font-size: 16px;">ComapnyEmail</label>
+                                                <input asp-for="ComapnyEmail" class="form-control form-control-lg border-left-0" class="form-control" style="height: 60px;font-size: 16px;" />
+                                        <span asp-validation-for="ComapnyEmail" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                    <div class="col-6 col-sm-12 col-lg-6">
+
+                                        <div class="form-group" style="margin-top:10px;">
+                                                    <label style="font-size: 16px;">Address</label>
+                                                    <input asp-for="Address" class="form-control form-control-lg border-left-0" class="form-control" style="height: 60px;font-size: 16px;" />
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                    </div>
+
+                                <div class="d-flex justify-content-lg-end justify-content-sm-start">
+                                    <button type="submit" class="btn btn-primary mr-2  m-b-0">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    </form>
+                   
+                </div>
+            </div>
+        </div>
+       
+    
+</body>
+<!-- Mirrored from www.urbanui.com/melody/template/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:07:34 GMT -->
+</html>
+<script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('form').submit(function (e) {
+            // Check form validity
+            var form = $(this)[0];
+            if (!form.checkValidity()) {
+                e.preventDefault();
+                // If form is invalid, show error alert
+                //swal({
+                //    title: "Error!",
+                //    text: "Please fill out all required fields.",
+                //    icon: "error",
+                //    button: "OK",
+                //});
+            } else {
+                // If form is valid, check if any field is empty
+                var emptyFields = $(this).find(":input").not(":button, :submit, :reset, :hidden").filter(function () {
+                    return $(this).val() === "";
+                });
+                if (emptyFields.length > 0) {
+                    // If any field is empty, show error alert
+                    e.preventDefault();
+                    swal({
+                        title: "Error!",
+                        text: "Please fill out all required fields.",
+                        icon: "error",
+                        button: "OK",
+                    });
+                } else {
+                    // If all fields are filled, show success alert
+                    swal({
+                        title: "Success!",
+                        text: "Your category has been created.",
+                        icon: "success",
+                        button: "OK",
+                    });
+                }
+            }
+        });
+    });
+</script>

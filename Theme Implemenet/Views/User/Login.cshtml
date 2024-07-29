@@ -1,0 +1,229 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<style>
+
+    .form-group small {
+        color: var(--error-color);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        visibility: hidden;
+    }
+
+    .form-group.success input {
+        border-color: var(--succes-color);
+    }
+
+    .form-group.error input {
+        border-color: var(--error-color);
+    }
+
+    .form-group.error small {
+        visibility: visible;
+    }
+
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="@Url.Action("Index","User")">Home</a>
+                <a class="breadcrumb-item text-dark" href="#">Shop</a>
+                <a href="@Url.Action("CheckOut","User")"><span class="breadcrumb-item active">Checkout</span></a>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Checkout Start -->
+<div class="container-fluid">
+    <form method="post" asp-action="Login" id="form" class="form">
+        <ul class="errorMessages"></ul>
+
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3"></span></h5>
+                <div class="bg-light p-30 mb-5">
+                    <h5>SignIn</h5><br /><br />
+                    <div class="row">
+
+                        <div class="col-md-6 form-group">
+                            <label>Email</label>
+                            <input type="text" name="email" id="email" class="form-control"><br />
+                            <small style="color:red;">Error Message</small>
+
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Password</label>
+                            <input type="text" name="password" id="password" class="form-control"><br />
+                            <small style="color:red;">Error Message</small>
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <input type="submit" value="Login" class="btn btn-block btn-primary font-weight-bold py-3" style="width:300px;border-radius:20px;margin-top:20px; margin-left:50px;" />
+                        <a href="@Url.Action("signup","User")"><button type="button" value="Cancel" class="btn btn-block btn-primary font-weight-bold py-3" style="width:300px;border-radius:20px;margin-top:20px; margin-left:30px;">Cancel</button></a>
+
+                    </div>
+@*                    <a href="@Url.Action("GoogleResponse","User")"><button type="button" class="btn btn-block btn-primary font-weight-bold py-3">google</button></a>
+*@
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Order Total</span></h5>
+                <div class="bg-light p-30 mb-5">
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        @foreach (var item in Model)
+                        {
+
+                            <div class="border-bottom">
+                                <br/>
+                                <h6 class="mb-3">Products</h6>
+                                <div class="d-flex justify-content-between">
+                                    <img src="~/@item.image" alt="" style="width: 50px;">
+                                    <p>$@item.bill</p>
+                                </div>
+
+                            </div>
+                        }
+                    }
+
+                    <div class="border-bottom pt-3 pb-2">
+                        <div class="d-flex justify-content-between mb-3">
+
+                            <h6>Subtotal</h6>
+                            <h6>$@ViewData["TotalBill"]</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">shipping</h6>
+                            <h6 class="font-weight-medium">$300</h6>
+                        </div>
+                    </div>
+                    @if (ViewData["TotalBill"] != null && ViewData["ShippingAmount"] != null)
+                    {
+                        decimal totalBill = (decimal)ViewData["TotalBill"];
+                        decimal shippingAmount = (decimal)ViewData["ShippingAmount"];
+
+                        <div class="pt-2">
+                            <div class="d-flex justify-content-between mt-2">
+                                <h5>Total</h5>
+                                <h5>$@(totalBill + shippingAmount)</h5>
+                            </div>
+                        </div>
+                    }
+                </div>
+             
+                    <div class="mb-5">
+                        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
+                    @{
+                        //int? userId = ViewContext.HttpContext.Request.Cookies["UserId"] != null ? int.Parse(ViewContext.HttpContext.Request.Cookies["UserId"]) : (int?)null;
+                    //string userId = HttpContext.Request.Cookies["UserId"];
+
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="bg-light p-30">
+                            @foreach (var item in ViewBag.payment)
+                            {
+                                <div class="form-group">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" name="PaymentTypeId" id="paypal-@item.PaymentTypeId" value="@item.PaymentTypeId">
+                                        <label class="custom-control-label" for="paypal-@item.PaymentTypeId">@item.Type</label>
+                                    </div>
+                                </div>
+                            }
+
+                            <button class="btn btn-block btn-primary font-weight-bold py-3">Place Order</button>
+                        </div>
+                    }
+                </div>
+                
+            </div>
+        </div>
+    </form>
+</div>
+<i class="fa-brands fa-google" style="height:40px;width:50px;"></i>
+
+<script>
+    const form = document.getElementById('form');
+    const CustName = document.getElementById('CustName');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const number = document.getElementById('number');
+    const address = document.getElementById('address');
+
+    // Show input error messages
+    function showError(input, message) {
+        const formControl = input.parentElement;
+        formControl.className = 'col-md-6 form-group error';
+        const small = formControl.querySelector('small');
+        small.innerText = message;
+    }
+
+    // Show success color
+    function showSuccess(input) {
+        const formControl = input.parentElement;
+        formControl.className = 'col-md-6 form-group success';
+    }
+
+    // Check email is valid
+    function checkEmail(input) {
+        const re = /^([\w\.\+]{1,})([^\W])@@([\w]{1,})(\.[\w]{1,})+$/;
+        if (re.test(input.value.trim())) {
+            showSuccess(input);
+        } else {
+            showError(input, 'Email is not valid');
+        }
+    }
+    // Check required fields
+    function checkRequired(inputArr) {
+        inputArr.forEach(function (input) {
+            if (input.value.trim() === '') {
+                showError(input, `${getFieldName(input)} is required`);
+            } else {
+                showSuccess(input);
+            }
+        });
+    }
+
+    // Check input Length
+    function checkLength(input, min, max) {
+        if (input.value.length < min) {
+            showError(input, `${getFieldName(input)} must be at least ${min} characters`);
+        } else if (input.value.length > max) {
+            showError(input, `${getFieldName(input)} must be less than ${max} characters`);
+        } else {
+            showSuccess(input);
+        }
+    }
+
+    // Get FieldName
+    function getFieldName(input) {
+        return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+    }
+
+    // Event Listeners
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        checkRequired([email, password]);
+        checkLength(password, 6, 25);
+        checkEmail(email);
+        if (document.querySelectorAll('.form-group.error').length > 0) {
+            // If no errors, submit the form
+            return false;
+        }
+
+        form.submit();
+
+    });
+</script>

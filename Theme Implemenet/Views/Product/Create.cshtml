@@ -1,0 +1,310 @@
+﻿@model Theme_Implemenet.Models.ProductModel
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from www.urbanui.com/melody/template/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:07:32 GMT -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+<style>
+    .btn-primary:hover {
+        background-color: blueviolet;
+    }
+</style>
+<body>
+    <div class="container-scroller">
+        <!-- partial:../../partials/_navbar.html -->
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:../../partials/_settings-panel.html -->
+            <!-- partial -->
+            <div class="main-panel" style="width:400%">
+                <div class="content-wrapper container-fluid">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                          Create  Product
+                        </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active" aria-current="page" style="font-size: 15px;"><a href="@Url.Action("Index","Product")" style="color:black;">Product List</a></li>
+
+                            </ol>
+                        </nav>
+                    </div>
+                    <form class="forms-sample" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="card" style="width:400%">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:30px;">
+                                                <label style="font-size: 16px;">Category</label>
+                                                <select asp-for="categoryId" class="form-control" style="height: 60px;" style="font-size: 16px;">
+                                                    <option>SelectCategory----</option>
+                                                    @if (ViewBag.cat != null)
+                                                    {
+                                                        foreach (var item in ViewBag.cat)
+                                                        {
+                                                            <option value="@item.categoryId">@item.categoryName</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                <span asp-validation-for="categoryId" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:30px;">
+                                                <label style="font-size: 16px;">SubCategory</label>
+                                                <select asp-for="subcategoryId" class="form-control" style="height: 60px;" style="font-size: 16px;">
+                                                    <option>Select----</option>
+
+                                                    @if (ViewBag.sub != null)
+                                                    {
+                                                        foreach (var item in ViewBag.sub)
+                                                        {
+                                                            <option value="@item.subcategoryId">@item.subcategoryName</option>
+
+                                                        }
+                                                    }
+                                                </select>
+                                                <span asp-validation-for="subcategoryId" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group " style="margin-top:10px;">
+                                                <label style="font-size: 16px;">Style</label>
+                                                <select asp-for="categorystyleid" class="form-control" style="height: 60px;" style="font-size: 16px;">
+                                                    <option>Select---</option>
+                                                    @if (ViewBag.style != null)
+                                                    {
+                                                        foreach (var item in ViewBag.style)
+                                                        {
+                                                            <option value="@item.categorystyleid">@item.categorystyleName</option>
+
+                                                        }
+                                                    }
+                                                </select>
+                                                <span asp-validation-for="categorystyleid" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                                <label style="font-size: 16px;">Material</label>
+                                                <select asp-for="productmaterialId" class="form-control" style="height: 60px;" style="font-size: 16px;">
+                                                    <option>Select----</option>
+
+                                                    @if (ViewBag.material != null)
+                                                    {
+                                                        foreach (var item in ViewBag.material)
+                                                        {
+                                                            <option value="@item.productmaterialId">@item.productmaterialname</option>
+
+                                                        }
+                                                    }
+                                                </select>
+                                                <span asp-validation-for="productmaterialId" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                                <label style="font-size: 16px;">Season</label>
+                                                <select asp-for="productseasonId" class="form-control" style="height: 60px;" style="font-size: 16px;">
+                                                    <option>Select----</option>
+
+                                                    @if (ViewBag.season != null)
+                                                    {
+                                                        foreach (var item in ViewBag.season)
+                                                        {
+                                                            <option value="@item.productseasonId">@item.productseasonName</option>
+
+                                                        }
+                                                    }
+                                                </select>
+                                                <span asp-validation-for="productseasonId" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                                <label style="font-size: 16px;">Gender</label>
+                                                <select asp-for="productgenderId" class="form-control" style="height: 60px;" style="font-size: 16px;">
+                                                    <option>Select----</option>
+
+                                                    @if (ViewBag.gender != null)
+                                                    {
+                                                        foreach (var item in ViewBag.gender)
+                                                        {
+                                                            <option value="@item.productgenderId">@item.productgenderName</option>
+
+                                                        }
+                                                    }
+                                                </select>
+                                                <span asp-validation-for="productgenderId" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                                <label style=" style=" font-size: 16px;">ProductName</label>
+                                                <input asp-for="productName" class="form-control" style="height: 60px;" style="font-size: 16px;" />
+                                                <span asp-validation-for="productName" class="text-danger"></span>
+                                            </div>
+                                            </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                                <label style="font-size: 16px;">ColorCode</label>
+                                                <input asp-for="productcod" class="form-control" style="height: 60px;" style="font-size: 16px;" />
+                                                <span asp-validation-for="productcod" class="text-danger"></span>
+                                            </div>
+                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group " style="margin-top:10px;">
+                                                <label style="font-size: 16px;">ColorSize</label>
+                                                <input asp-for="sizeguideimage" class="form-control" style="height: 60px;" style="font-size: 16px;" />
+                                                <span asp-validation-for="sizeguideimage" class="text-danger"></span>
+                                            </div>
+
+                                            </div>
+                                        <div class="col-6 col-sm-12 col-lg-6" style="margin-top:10px;">
+                                            <div class="form-group text">
+                                                <label style="font-size: 16px;">Title</label>
+                                                <input asp-for="title" class="form-control" style="height: 60px;" style="font-size: 16px;" />
+                                                <span asp-validation-for="title" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                            
+                                        </div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                                <label style="font-size: 16px;">Description</label>
+                                                <input asp-for="description" class="form-control" style="height: 60px;" style="font-size: 16px;" />
+                                                <span asp-validation-for="description" class="text-danger"></span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                                <label style="font-size: 16px;">Keyword</label>
+                                                <input asp-for="Keyword" class="form-control" style="height: 60px;" style="font-size: 16px;" />
+                                                <span asp-validation-for="Keyword" class="text-danger"></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                                <label style="font-size: 16px;">Price</label>
+                                                <input asp-for="price" class="form-control" style="height: 60px;" style="font-size: 16px;" />
+                                                <span asp-validation-for="price" class="text-danger"></span>
+                                            </div>
+                                          </div>      
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="card mt-2 w-100" style="margin-left: auto; margin-right: 0;">
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label style="font-size: 16px;">Image</label>
+                                                        <hr />
+                                                        <br />
+                                                        <input type="file" name="file" class="form-control mt-1" style="height: 60px; font-size: 16px;" onchange="displaySelectedImage(this)">
+                                                        <img id="selectedImage" src="" width="200px" height="200px" class="ml-5 mt-4" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="float-right">
+                                    <button type="submit" class="btn btn-primary p-3 mt-5">Submit</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+         </div>
+    </div>
+    </div>
+</body>
+<!-- Mirrored from www.urbanui.com/melody/template/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:07:34 GMT -->
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+    function displaySelectedImage(input) {
+        var selectedImage = document.getElementById('selectedImage');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                selectedImage.src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('form').submit(function (e) {
+            // Check form validity
+            var form = $(this)[0];
+            if (!form.checkValidity()) {
+                e.preventDefault();
+                // If form is invalid, show error alert
+                swal({
+                    title: "Error!",
+                    text: "Please fill out all required fields.",
+                    icon: "error",
+                    button: "OK",
+                });
+            } else {
+                // If form is valid, check if any field is empty
+                var emptyFields = $(this).find(":input").not(":button, :submit, :reset, :hidden").filter(function () {
+                    return $(this).val() === "";
+                });
+                if (emptyFields.length > 0) {
+                    // If any field is empty, show error alert
+                    e.preventDefault();
+                    swal({
+                        title: "Error!",
+                        text: "Please fill out all required fields.",
+                        icon: "error",
+                        button: "OK",
+                    });
+                } else {
+                    // If all fields are filled, show success alert
+                    swal({
+                        title: "Success!",
+                        text: "Your category has been created.",
+                        icon: "success",
+                        button: "OK",
+                    });
+                }
+            }
+        });
+    });
+</script>

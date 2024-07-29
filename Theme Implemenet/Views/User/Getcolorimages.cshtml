@@ -1,0 +1,319 @@
+﻿@model Theme_Implemenet.Models.Checkcolorsize
+
+@{
+    ViewData["Title"] = "Getcolorimages";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+    .slidergold {
+        accent-color: gold;
+    }
+</style>
+
+<div class="container-fluid">
+   <div class="row px-xl-5">
+        <!-- Shop Sidebar Start -->
+        <div class="col-lg-3 col-md-4">
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by Category</span></h5>
+            <div class="bg-light p-4 mb-30">
+                <form>
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" class="custom-control-input" checked id="color-all">
+                        <label class="custom-control-label" for="color-all">All Category</label>
+                        <span class="badge border font-weight-normal">@ViewBag.cat</span>
+                    </div>
+                    @foreach (var catCount in ViewBag.CatCounts)
+                    {
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" name="cat" value="@catCount.catId" class="custom-control-input" id="category-@catCount.catId">
+                            <label class="custom-control-label" for="category-@catCount.catId">@catCount.CatName</label>
+                            <span class="badge border font-weight-normal">@catCount.Count</span>
+                        </div>
+                    }
+                </form>
+            </div>
+            <!-- Price Start -->
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by price</span></h5>
+            <div class="bg-light p-4 mb-30">
+                <form>
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" class="custom-control-input" checked id="price-all">
+                        <label class="custom-control-label" for="price-all">All Price</label>
+                        <span class="badge border font-weight-normal">@ViewBag.totalprice</span>
+                    </div>
+                    <div class="aegov-form-control">
+                        <div class="form-control-input items-center" id="slider-range">
+                            <input type="range" name="price" min="@ViewBag.mins" max="@ViewBag.maximun" id="rangeSlider" oninput="updateRangeOutput(this.value)" class="slidergold">
+                            <output class="w-[50px] text-sm text-end h-auto bg-transparent py-1" id="rangeelemoutput">
+                                $0-@ViewBag.maximun
+                            </output>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Price End -->
+            <!-- Color Start -->
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by color</span></h5>
+
+            <div class="bg-light p-4 mb-30">
+                <form method="get" asp-action="Getcolorimages" asp-controller="User">
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" class="custom-control-input" checked id="color-all">
+                        <label class="custom-control-label" for="color-all">All Size</label>
+                        <span class="badge border font-weight-normal">@ViewBag.productsize</span>
+                    </div>
+                    @foreach (var colorCount in ViewBag.ColorCounts)
+                    {
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" name="colors" value="@colorCount.ColorId" class="custom-control-input" id="color-@colorCount.ColorId">
+                        <label class="custom-control-label" for="color-@colorCount.ColorId">@colorCount.ColorName</label>
+                        <span class="badge border font-weight-normal">@colorCount.Count</span>
+                        </div>
+                    }
+                </form>
+
+            </div>
+            <!-- Color End -->
+            <!-- Size Start -->
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by size</span></h5>
+            <div class="bg-light p-4 mb-30">
+                <form>
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" class="custom-control-input" checked id="size-1">
+                        <label class="custom-control-label" for="size-all">All Size</label>
+                        <span class="badge border font-weight-normal">@ViewBag.totalcolor</span>
+                    </div>
+                    @foreach (var colorCount in ViewBag.sizeCounts)
+                    {
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" name="size" value="@colorCount.SizeId" class="custom-control-input" id="size-@colorCount.SizeId">
+                            <label class="custom-control-label" for="size-@colorCount.SizeId">@colorCount.SizeName</label>
+                            <span class="badge border font-weight-normal">@colorCount.Count</span>
+                        </div>
+                    }
+                </form>
+            </div>      
+            <div class="bg-light p-4 mb-30">
+                <form>
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" class="custom-control-input" checked id="price-all">
+                        <label class="custom-control-label" for="price-all">All Fabric</label>
+                        <span class="badge border font-weight-normal">@ViewBag.fabriccount</span>
+                    </div>
+                    @foreach (var materialCount in ViewBag.fabriccounts)
+                    {
+                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                            <input type="checkbox" name="fabricid" class="custom-control-input" value="@materialCount.materialId" id="price-@materialCount.materialId">
+                            <label class="custom-control-label" for="price-@materialCount.materialId">@materialCount.MaterialName</label>
+                            <span class="badge border font-weight-normal">@materialCount.Count</span>
+                        </div>
+                    }
+                </form>
+                </div>
+            <!-- Size End -->
+        </div>
+        <!-- Shop Sidebar End -->
+        <!-- Shop Product Start -->
+        <div class="col-lg-9 col-md-8" id="productContainer">
+            <div class="row pb-3">
+                @foreach (var item in Model.productVeriations)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                        <div class="product-item bg-light mb-4">
+                            <button type="button" class="btn btn-primary">@item.Product.Discount%</button>
+                            <div class="product-img position-relative overflow-hidden">
+                                        <img class="img-fluid w-100" src="~/@item.image" alt="Product Image"/>
+                                        <div class="product-action">
+                                        <a class="btn btn-outline-dark btn-square" href="@Url.Action("ProductDetails","User",new{id=item.productId})"><i class="fa fa-shopping-cart"></i></a>
+                                    </div>
+                                    </div>
+                                    <div class="text-center py-4">
+                                    <a class="h6 text-decoration-none text-truncate" href="@Url.Action("ProductDetails","User",new{id=item.productId})">@item.Product.productName</a>
+                                    <div class="d-flex align-items-center justify-content-center mt-2">
+                                    <h5>$@item.Product.price</h5><h6 class="text-muted ml-2"><del>$@item.costprice</del></h6>
+                                    </div>
+                                        <div class="d-flex align-items-center justify-content-center mb-1">
+                                            <small class="fa fa-star text-primary mr-1"></small>                                        
+                                            <small>(99)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                }
+                <div class="col-12">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item @(Model.currentpage == 1 || Model.currentpage == 0 ? "disabled" : "")">
+                                <a class="page-link" asp-action="Getcolorimages" asp-route-currentpage="@(Model.currentpage - 1)">Previous</a>
+                            </li>
+
+                            @if (Model.currentpage > 5)
+                            {
+                                <li class="page-item"><a class="page-link" asp-action="Getcolorimages" asp-route-currentpage="1">1</a></li>
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            }
+
+                            @for (int i = Math.Max(1, Model.currentpage - 2); i <= Math.Min(Model.totalpage, Model.currentpage + 2); i++)
+                            {
+                                <li class="page-item @(i == Model.currentpage ? "active" : "")">
+                                    <a class="page-link" asp-action="Getcolorimages" asp-route-currentpage="@i">@i</a>
+                                </li>
+                            }
+
+                            @if (Model.currentpage < Model.totalpage - 4)
+                            {
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                                <li class="page-item"><a class="page-link" asp-action="Getcolorimages" asp-route-currentpage="@Model.totalpage">@Model.totalpage</a></li>
+                            }
+
+                            <li class="page-item @(Model.currentpage == Model.totalpage ? "disabled" : "")">
+                                <a class="page-link" asp-action="Getcolorimages" asp-route-currentpage="@(Model.currentpage + 1)">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+        <!-- Shop Product End -->
+    </div>
+</div>
+<!-- Shop End -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Handle checkbox change event
+        $('input[type="checkbox"][name="colors"]').on('change', function () {
+            var selectedColors = [];
+            $('input[type="checkbox"][name="colors"]:checked').each(function () {
+                selectedColors.push($(this).val()); // Har checked checkbox ka ID selectedColors array mein push karein
+            });
+
+            //$('input[type="checkbox"][name="colors"]').on('change', function () {
+            //    // Get all selected colors
+            //    var selectedColors = $('input[type="checkbox"][name="colors"]:checked').map(function () {
+            //        return $(this).val();
+            //    }).get();
+
+            var url = '@Url.Action("Getcolorimages","User")' + '?colors=' + selectedColors.join(',');
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: { colors: selectedColors },
+                success: function (result) {
+                    $('#productContainer').html($(result).find('#productContainer').html());
+                    //window.reload();
+                    window.location.href = url;
+
+                },
+                error: function (xhr, status, error) {
+                    alert("Failed to load data:" + error);
+                }
+            });
+        });
+        $('input[type="checkbox"][name="size"]').on('change', function () {
+            var selectedsize = [];
+            $('input[type="checkbox"][name="size"]:checked').each(function () {
+                selectedsize.push($(this).val()); // Har checked checkbox ka ID selectedColors array mein push karein
+            });
+            // Handle checkbox change event
+            //$('input[type="checkbox"][name="size"]').on('change', function () {
+            //    // Get all selected colors
+            //    var selectedsize = $('input[type="checkbox"][name="size"]:checked').map(function () {
+            //        return $(this).val();
+            //    }).get();
+            var url = '@Url.Action("Getszeimages","User")' + '?size=' + selectedsize.join(',');
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: { size: selectedsize },
+                success: function (result) {
+                    $('#productContainer').html($(result).find('#productContainer').html());
+                    //window.reload();
+                    window.location.href = url;
+                    console.log(selectedColors);
+                },
+                error: function (xhr, status, error) {
+                    alert("Failed to load data:" + error);
+                }
+            });
+        });
+        //fabricselect
+        $('input[type="checkbox"][name="fabricid"]').on('change', function () {
+            var selectedfabric = [];
+            $('input[type="checkbox"][name="fabricid"]:checked').each(function () {
+                selectedfabric.push($(this).val()); // Har checked checkbox ka ID selectedColors array mein push karein
+            });
+            var url = '@Url.Action("Getmaterialimages","User")' + '?fabricid=' + selectedfabric.join(',');
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: { fabricid: selectedfabric },
+                success: function (result) {
+                    $('#productContainer').html($(result).find('#productContainer').html());
+                    //window.reload();
+                    window.location.href = url;
+                    console.log(selectedColors);
+                },
+                error: function (xhr, status, error) {
+                    alert("Failed to load data:" + error);
+                }
+            });
+        });
+        //categoryselect
+        $('input[type="checkbox"][name="cat"]').on('change', function () {
+            var selectedcat = [];
+            $('input[type="checkbox"][name="cat"]:checked').each(function () {
+                selectedcat.push($(this).val()); // Har checked checkbox ka ID selectedColors array mein push karein
+            });
+            var url = '@Url.Action("GetCategory","User")' + '?cat=' + selectedcat.join(',');
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: { cat: selectedcat },
+                success: function (result) {
+                    $('#productContainer').html($(result).find('#productContainer').html());
+                    //window.reload();
+                    window.location.href = url;
+                },
+                error: function (xhr, status, error) {
+                    alert("Failed to load data:" + error);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        function updateRangeOutput() {
+            var rangeSlider = $('#rangeSlider');
+            var min = rangeSlider.attr('min');
+            var max = rangeSlider.val();
+            $('#rangeelemoutput').text('$' + max);
+            // Trigger the AJAX request
+            getFilteredImages(min, max);
+        }
+
+        function getFilteredImages(minPrice, maxPrice) {
+            var url = '@Url.Action("Getpriceimages", "User")';
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: { min: minPrice, max: maxPrice }, // Pass min and max as parameters
+                success: function (result) {
+                    $('#productContainer').html($(result).find('#productContainer').html());
+
+                },
+                error: function (xhr, status, error) {
+                    alert('Failed to load data: ' + error);
+                }
+            });
+        }
+
+        $('#rangeSlider').on('input', updateRangeOutput);
+    });
+</script>

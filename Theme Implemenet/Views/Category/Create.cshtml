@@ -1,0 +1,185 @@
+﻿@model Theme_Implemenet.Models.CategoryModel
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from www.urbanui.com/melody/template/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:07:32 GMT -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png"/>
+</head>
+<style>
+    
+
+    .row {
+        margin-top: 5px;
+    }
+    .btn-primary:hover{
+        background-color:blueviolet;
+    }
+   
+</style>
+<body>
+    
+    <div class="container-scroller">
+        <!-- partial:../../partials/_navbar.html -->
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:../../partials/_settings-panel.html -->
+            <!-- partial -->
+            <div class="main-panel" style="width:400%">
+                <div class="content-wrapper container-fluid">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                          Create Category
+                        </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active" aria-current="page" style="font-size: 15px;"><a href="@Url.Action("Index","Category")" style="color:black;">Category List</a></li>
+
+                            </ol>
+                        </nav>
+                    </div>
+                    <form class="forms-sample" method="post"  enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="card" style="width:400%">
+                            <div class="card-body">
+                            <div class="row">
+                                    <div class="col-6 col-sm-12 col-lg-6">
+                                    <div class="form-group" style="margin-top:30px;">
+                                    <label style="font-size: 16px;">CategoryName</label>
+                                    <input asp-for="categoryName" class="form-control" style="height: 60px; font-size: 16px;"/>
+                                     <span asp-validation-for="categoryName" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:30px;">
+                                                <label style="font-size: 16px;">Title</label>
+                                                <input asp-for="title" class="form-control" style="height: 60px;font-size: 16px;"/>
+                                        <span asp-validation-for="title" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group " style="margin-top:10px;">
+                                                <label style="font-size: 16px;">Description</label>
+                                                <input asp-for="description" class="form-control" style="height: 60px;font-size: 16px;"/>
+                                        <span asp-validation-for="description" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                                <label style="font-size: 16px;">Keyword</label>
+                                                <input asp-for="Keyword" class="form-control" style="height: 60px;font-size: 16px;" />
+                                        <span asp-validation-for="Keyword" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                    <label style="font-size: 16px;">Tag</label>
+                                                <input asp-for="tag" class="form-control" style="height: 60px;font-size: 16px;" />
+                                        <span asp-validation-for="tag" class="text-danger"></span>
+                                    </div>               
+                                    </div>
+
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="card mt-2 w-100" style="margin-left: auto; margin-right: 0;">
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label style="font-size: 16px;">Image</label>
+                                                        <hr />
+                                                        <br />
+                                                        <input type="file" name="file" class="form-control mt-1" style="height: 60px;" style="font-size: 16px;" onchange="displaySelectedImage(this)">
+                                                        <img id="selectedImage" src="" width="200px" height="200px" class="ml-5 mt-4" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+
+                                    <div class="d-flex justify-content-lg-end justify-content-sm-start">
+                                        <button type="submit" class="btn btn-primary mr-2 mt-5 p-3">
+                                            Submit
+                                        </button>
+                                    </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    </div>
+                </div>
+</div>
+</div>
+   
+</body>
+</html>
+<script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+    function displaySelectedImage(input) {
+        var selectedImage = document.getElementById('selectedImage');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                selectedImage.src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+   
+    
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('form').submit(function (e) {
+            // Check form validity
+            var form = $(this)[0];
+            if (!form.checkValidity()) {
+                e.preventDefault();
+            } else {
+                // If form is valid, check if any field is empty
+                var emptyFields = $(this).find(":input").not(":button, :submit, :reset, :hidden").filter(function () {
+                    return $(this).val() === "";
+                });
+                if (emptyFields.length > 0) {
+                    // If any field is empty, show error alert
+                    e.preventDefault();
+                    swal({
+                        title: "Error!",
+                        text: "Please fill out all required fields.",
+                        icon: "error",
+                        button: "OK",
+                    });
+                } else {
+                    // If all fields are filled, show success alert
+                    swal({
+                        title: "Success!",
+                        text: "Your category has been created.",
+                        icon: "success",
+                        button: "OK",
+                    });
+                }
+            }
+        });
+    });
+</script>
+

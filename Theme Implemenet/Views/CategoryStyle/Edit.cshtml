@@ -1,0 +1,229 @@
+﻿@model Theme_Implemenet.Models.CategoryStyle
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+<style>
+    .row {
+        margin-top: 5px;
+    }
+
+    .btn-primary:hover {
+        background-color: blueviolet;
+    }
+</style>
+<body>
+    <div class="container-scroller">
+        <!-- partial:../../partials/_navbar.html -->
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:../../partials/_settings-panel.html -->
+            <!-- partial -->
+            <div class="main-panel" style="width:400%">
+                <div class="content-wrapper container-fluid">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                           Update CategoryStyle
+                        </h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active" aria-current="page" style="font-size: 15px;"><a href="@Url.Action("Index","CategoryStyle")" style="color:black;"> CategoryStyle List</a></li>
+
+                            </ol>
+                        </nav>
+                    </div>
+                    <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="card" style="width:400%">
+                             <input type="hidden" id="categorystyleid" name="categorystyleid" value="@Model.categorystyleid" />
+                            <div class="card-body">
+                               
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+
+                                            <div class="form-group" style="margin-top:30px;">
+                                            <label style="font-size: 16px;">StyleName</label>
+                                            <input asp-for="categorystyleName" class="form-control" style="height: 60px; font-size: 16px;">
+                                            <span asp-validation-for="categorystyleName" class="text-danger"></span>
+
+                                        </div>
+                                        </div>
+                                    
+                                        <div class="col-6 col-sm-12 col-lg-6">
+
+                                            <div class="form-group" style="margin-top:30px;">
+                                            <label style="font-size: 16px;">Title</label>
+                                            <input asp-for="title" class="form-control" style="height: 60px; font-size: 16px;">
+                                            <span asp-validation-for="title" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                                <label style="font-size: 16px;">Description</label>
+                                            <input asp-for="description" class="form-control" style="height: 60px; font-size: 16px;">
+                                            <span asp-validation-for="description" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+
+                                            <div class="form-group" style="margin-top:10px;">
+                                            <label style="font-size: 16px;">Tag</label>
+                                            <input asp-for="tag" class="form-control form-control" style="height: 60px; font-size: 16px;" />
+                                            <span asp-validation-for="tag" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                        <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                            <label style="font-size: 16px;">Keyword</label>
+                                            <input asp-for="Keyword" class="form-control form-control" style="height: 60px; font-size: 16px;" />
+                                            <span asp-validation-for="Keyword" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                            <label style="font-size: 16px;">Category</label>
+                                            <select asp-for="categoryId" class="form-control" style="height: 60px;font-size: 16px;">
+                                                @if (ViewBag.category != null)
+                                                {
+                                                    foreach (var item in ViewBag.category)
+                                                    {
+                                                        <option value="@item.categoryId">@item.categoryName</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <span asp-validation-for="categoryId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                        <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:10px;">
+                                            <label style="font-size: 16px;">SubCategory</label>
+                                            <select asp-for="subcategoryId" class="form-control" style="height: 60px;font-size: 16px;">
+                                                @if (ViewBag.subcategory != null)
+                                                {
+                                                    foreach (var item in ViewBag.subcategory)
+                                                    {
+                                                        <option value="@item.subcategoryId">@item.subcategoryName</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <span asp-validation-for="subcategoryId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+
+                                            <div class="form-group" style="margin-top:10px;">
+                                            <label style="font-size: 16px;">Status</label>
+                                            <select asp-for="StatusId" class="form-control" style="height: 60px;font-size: 16px;">
+                                                @if (ViewBag.status != null)
+                                                {
+                                                    foreach (var item in ViewBag.status)
+                                                    {
+                                                        <option value="@item.StatusId">@item.StatusName</option>
+
+                                                    }
+                                                }
+                                            </select>
+                                            <span asp-validation-for="StatusId" class="text-danger"></span>
+
+                                        </div>
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                   
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="card mt-2 w-100" style="margin-left: auto; margin-right: 0;">
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label style="font-size: 16px;">Image</label>
+                                                        <hr />
+                                                        <br />
+                                                        <input type="file" name="file" class="form-control mt-1" style="height: 60px;" style="font-size: 16px;" onchange="displaySelectedImage(this)">
+                                                        <img id="selectedImage" src="~/@Model.imagepath" width="200px" height="200px" class="ml-5 mt-4" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                            </div>
+                                    <button type="submit" class="btn btn-primary mr-2 mt-3 p-3" >Save</button><br/>
+                                 </div>
+                                </div>
+                                
+                               </form>
+                            </div>
+                        </div>
+                    </div>
+      
+       
+    </div>
+</body>
+<!-- Mirrored from www.urbanui.com/melody/template/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:07:34 GMT -->
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+    function displaySelectedImage(input) {
+        var selectedImage = document.getElementById('selectedImage');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                selectedImage.src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+<script>
+    // Submit button par click hone par form submit event handle karna
+    $('form').submit(function (e) {
+        // Default form submission ko rokna
+        e.preventDefault();
+
+        // Submit se pehle alert show karna
+        swal('Good job!', 'Product Update Successfully!', 'success');
+
+        // Form ko submit karna
+        var form = this;
+        var formData = new FormData(form);
+        $.ajax({
+            type: form.method,
+            url: form.action,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                // Success ke baad page ko navigate karna
+                window.location.href = '@Url.Action("Index","CategoryStyle")';
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Error handling
+                //swal('Good job!', 'Product Update Successfully!', 'error');
+
+            }
+        });
+    });
+</script>

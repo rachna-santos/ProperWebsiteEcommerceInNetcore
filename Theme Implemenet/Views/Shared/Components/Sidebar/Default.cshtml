@@ -1,0 +1,120 @@
+﻿@model IEnumerable<Theme_Implemenet.Models.Modulepagespermissions>
+
+@*@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager*@
+
+<nav class="sidebar sidebar-offcanvas ml-3" id="sidebar">
+    <ul class="nav pr-5">
+        <li class="nav-item nav-profile">
+            @*<div class="nav-link">
+                <div class="profile-image">
+                    <img src="~/Adminsite/images/faces/face5.jpg" alt="image" />
+                </div>
+                <div class="profile-name">
+                    <p class="name">
+                        Welcome Jane
+                    </p>
+                    <p class="designation">
+                        Super Admin
+                    </p>
+                </div>
+            </div>*@
+            @if (User.Identity.IsAuthenticated)
+            {
+                <hr />
+                <p class="ml-4">WelCome To @User.Identity.Name</p>
+            }
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Index","Home")">
+                <i class="fa fa-puzzle-piece menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#page-layouts" aria-expanded="false" aria-controls="page-layouts">
+                <i class="fab fa-trello menu-icon"></i>
+                <span class="menu-title">Admin</span>
+            </a>
+            <div class="collapse" id="page-layouts">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="/IndexCompany">Company List</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/listuser">User List</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/IndexRole">Role list</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Index","Pages")">pages permission</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/Indexuserpermission">Product permission</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/Inventorylogs">Inventory logs</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <i class="far fa-compass menu-icon"></i>
+                <span class="menu-title">Product-Type</span>
+            </a>
+            <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="/IndexCategory">Category List</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/IndexSubCategory">SubCategory List</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/IndexCategoryStyle">Style List</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/IndexProductSeason">Season List</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/IndexProductSize">Size List</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/IndexProductGender">Gender List</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/IndexProductMaterial">Material List</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/IndexProductColor">Color List</a></li>
+                </ul>
+            </div>
+        </li>   
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-advanced" aria-expanded="false" aria-controls="ui-advanced">
+                <i class="fas fa-clipboard-list menu-icon"></i>
+                <span class="menu-title">Product Create</span>
+            </a>
+            <div class="collapse" id="ui-advanced">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Create","Product")">Create Product</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="/IndexProduct">Product List</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#apps" aria-expanded="false" aria-controls="apps">
+                <i class="fas fa-briefcase menu-icon"></i>
+                <span class="menu-title">Customer</span>
+            </a>
+            <div class="collapse" id="apps">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="/customer">Customer List</a></li>
+      
+                </ul>`
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
+                <i class="fas fa-exclamation-circle menu-icon"></i>
+                <span class="menu-title">Order</span>
+              
+            </a>
+            <div class="collapse" id="error">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="/OrderList">OrderList</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#maps" aria-expanded="false" aria-controls="maps">
+                <i class="fas fa-map-marker-alt menu-icon"></i>
+                <span class="menu-title">Rating</span>
+            </a>
+            <div class="collapse" id="maps">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="/Comment">RatingList</a></li>
+
+                </ul>
+            </div>
+        </li>
+    </ul>
+</nav>

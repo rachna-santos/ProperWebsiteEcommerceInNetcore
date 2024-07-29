@@ -1,0 +1,162 @@
+﻿@model Theme_Implemenet.Models.ProductColor
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+<style>
+    .btn-primary:hover {
+        background-color: blueviolet;
+    }
+</style>
+<body>
+    <div class="container-scroller">
+        <!-- partial:../../partials/_navbar.html -->
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:../../partials/_settings-panel.html -->
+            <!-- partial -->
+            <div class="main-panel" style="width:400%">
+                <div class="content-wrapper container-fluid">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                            Update Color
+                        </h3>
+                          <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                                <li class="breadcrumb-item active" aria-current="page" style="font-size: 15px;"><a href="@Url.Action("Index","ProductColor")" style="color:black;">Color List</a></li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <form class="forms-sample" method="post" enctype="multipart/form-data">
+
+                    <div class="row">
+                        <div class="card" style="width:400%">
+                            <div class="card-body">
+                                    <input type="hidden" name="productcolorId" value="@Model.productcolorId" />
+
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:50px;">
+                                                <label style="font-size: 16px;">ColorName</label>
+                                                <input asp-for="productcolorName" class="form-control" style="height: 60px; font-size: 16px;"/>
+                                        <span asp-validation-for="productcolorName" class="text-danger"></span>
+                                    </div>
+                                    </div>
+                                  
+                                        <div class="col-md-6">
+                                            <div class="form-group" style="margin-top:50px;">
+                                            <label style="font-size: 16px;" class="ml-5">Code</label><br /><br/>
+                                            <input type="color" name="color" style="font-size: 16px;" class="ml-5" />  <input type="color" name="color1" style="font-size: 16px;" class="ml-3" />
+                                            </div>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6" style="margin-top:20px;">
+                                    <div class="form-group">
+                                                <label style="font-size: 16px;">Status</label>
+                                                <select asp-for="StatusId" class="form-control" style="height: 60px; font-size: 16px;">
+                                            @if (ViewBag.status != null)
+                                            {
+                                                foreach (var item in ViewBag.status)
+                                                {
+                                                    <option value="@item.StatusId">@item.StatusName</option>
+
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="StatusId" class="text-danger"></span>
+                                    </div>
+                                    </div>
+
+                                        <div class="col-6 col-sm-12 col-lg-6" style="margin-top:30px;">
+                                            <div class="card mt-2" style="margin-left: auto; margin-right: 0;">
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label style="font-size: 16px;" style="margin-top:20px;">Image</label>
+                                                        <hr />
+                                                        <br />
+                                                        <input type="file" name="file" class="form-control mt-1" style="height: 60px;" style="font-size: 16px;" onchange="displaySelectedImage(this)">
+                                                        <img id="selectedImage" src="" width="200px" height="200px" class="ml-5 mt-4" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        </div>
+                                    <div class="d-flex justify-content-lg-end justify-content-sm-start">
+
+                                        <button type="submit" class="btn btn-primary mr-2 mt-5 p-3 m-b-0">Submit</button>
+                                   </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                     </form>
+                      
+                </div>
+            </div>
+        </div>
+      
+    </div>
+
+</body>
+<!-- Mirrored from www.urbanui.com/melody/template/pages/forms/basic_elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:07:34 GMT -->
+</html>
+<script>
+    // Submit button par click hone par form submit event handle karna
+    $('form').submit(function (e) {
+        // Default form submission ko rokna
+        e.preventDefault();
+
+        // Submit se pehle alert show karna
+        swal('Good job!', 'Product Update Successfully!', 'success');
+
+        // Form ko submit karna
+        var form = this;
+        var formData = new FormData(form);
+        $.ajax({
+            type: form.method,
+            url: form.action,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                // Success ke baad page ko navigate karna
+                window.location.href = '@Url.Action("Index","ProductColor")';
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Error handling
+                //swal('Good job!', 'Product Update Successfully!', 'error');
+                //window.location.href = '@Url.Action("Edit","Category")';
+
+            }
+        });
+    });
+</script>
+
+<script>
+    function displaySelectedImage(input) {
+        var selectedImage = document.getElementById('selectedImage');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                selectedImage.src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

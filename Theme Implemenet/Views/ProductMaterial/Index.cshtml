@@ -1,0 +1,125 @@
+﻿@model Theme_Implemenet.Models.MaterialViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from www.urbanui.com/melody/template/pages/tables/data-table.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:08:40 GMT -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+
+<body>
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel" style="width:100%">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                       List Material
+                    </h3>
+                    <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page" style="font-size: 15px;"><a href="@Url.Action("Create","ProductMaterial")" style="color:black;"> Create Material </a></li>
+                    </ol>
+                        <form>
+                            <div class="row">
+                                <div class="">
+                                    <input name="term" class="form-control" placeholder="search bar" />
+                                </div>
+                                <div class="">
+                                    <button type="submit" class="btn btn-primary mt-1 ml-2">search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </nav>
+                </div>
+                <div class="row">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="table-sorter-wrapper col-lg-12 table-responsive">
+                                        <table id="sortable-table-1" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="sortStyle">Material</th>
+                                                    <th class="sortStyle">title</th>
+                                                    <th class="sortStyle">description</th>                                                  
+                                                    <th class="sortStyle">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.ProductMaterial)
+                                                {
+                                                    <tr>                                                   
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.productmaterialname)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.title)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.description)
+                                                        </td>                                                     
+                                                     
+                                                        <td>
+                                                            <a asp-action="Edit" asp-route-id="@item.productmaterialId" class="btn btn-primary">Edit</a>
+                                                        </td>
+                                                      @*  <td>
+                                                            <form asp-action="Delete" asp-route-id="@item.productmaterialId" method="post">
+                                                                <input type="submit" class="btn btn-primary" value="Delete" onclick="return confirm('are you show you want to delete data')" />
+                                                            </form>
+                                                        </td>*@
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <nav aria-label="Page navigation example" class="float-right mt-3">
+                            <ul class="pagination">
+
+                                <li class="page-item @(Model.currentpage == 1 ? "disabled" : "")">
+                                    <a class="page-link" asp-action="Index" asp-route-currentpage="@(Model.currentpage - 1)">Previous</a>
+                                </li>
+
+
+
+                                @for (int i = 1; i <= Model.totalpage; i++)
+                                {
+
+                                    <li class="page-item @(i == Model.currentpage ? "active" : "")"><a class="page-link w-100" asp-action="Index" asp-route-currentpage="@i">@i</a></li>
+
+
+                                }
+                                <li class="page-item @(Model.currentpage == Model.totalpage ? "disabled" : "")">
+                                    <a class="page-link" asp-action="Index" asp-route-currentpage="@(Model.currentpage + 1)">Next</a>
+                                </li>
+
+
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

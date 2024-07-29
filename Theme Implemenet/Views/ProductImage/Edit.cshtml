@@ -1,0 +1,182 @@
+﻿@model Theme_Implemenet.Models.ProductImage
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:../../partials/_navbar.html -->
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:../../partials/_settings-panel.html -->
+            <!-- partial -->
+            <div class="main-panel" style="width:400%">
+                <div class="content-wrapper container-fluid">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                            Update Product
+                        </h3>
+                     @*   <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index","ProductVeriation")"><p class="text-black">Variation</p></a></li>
+                            </ol>
+                        </nav>*@
+                    </div>
+                    <div class="row">
+                        <div class="card" style="width:400%">
+                            <div class="card-body">
+                                @* <p class="card-description">
+                                Basic form elements
+                                </p>*@
+
+                                <form class="forms-sample" method="post" enctype="multipart/form-data" id="uploadForm">
+                                    @*   <div class="form-group">
+                                        <label asp-for="productimageId" class="control-label"></label>
+                                        <input asp-for="productimageId" class="form-control" />
+                                        <span asp-validation-for="productimageId" class="text-danger"></span>
+                                    </div>
+                             
+                                    <div class="form-group">
+                                        <label asp-for="productId"></label>
+                                        <select asp-for="productId" class="form-control">
+                                            @if (ViewBag.product != null)
+                                            {
+                                                foreach (var item in ViewBag.product)
+                                                {
+                                                    <option value="@item.productId">@item.productName</option>
+
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="productId" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="StatusId"></label>
+                                        <select asp-for="StatusId" class="form-control">
+                                            @if (ViewBag.status != null)
+                                            {
+                                                foreach (var item in ViewBag.status)
+                                                {
+                                                    <option value="@item.StatusId">@item.StatusName</option>
+
+                                                }
+                                            }
+                                        </select>
+                                        <span asp-validation-for="StatusId" class="text-danger"></span>
+
+                                    </div>*@
+                                    <div class="form-group">
+                                        <label>File upload</label>
+@*                                        <input type="hidden" name="productId1" id="productId" value="@Model.First().productId" />
+*@
+                                        <input type="file" name="file" class="form-control" multiple w="w-75"/><br/><br/>
+                                        <button type="submit" class="btn btn-primary mr-2" onclick="editProduct();">
+                                           Save
+                                        </button>
+                                        <<div  class="form-group">
+                                            <br />
+                                            @if (ViewBag.Images != null && ViewBag.Images.Count > 0)
+                                            {
+                                                foreach (var image in ViewBag.Images)
+                                                {
+
+                                                    <input type="submit" class="btn btn-primary delete-btn" value="x" asp-route-id="@image.productimageId" asp-action="Delete" onclick="deleteImage('@image.productimageId', event)" style="padding: 5px 5px; margin-inline-start:50px;" />
+
+                                                    <img src="~/@image.iamgepath" alt="Product Image" width="150px" height="150px" style="margin-top:50px;" />
+
+@*                                                   <span class="text-danger" style="position: absolute;cursor: pointer;background: black;padding: 4px;font-size: 16px;color: white !important;font-weight: 800;margin-left:5px;" onclick="funcProductImageRemove(id)">X</span>
+*@
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <p>No images available for this product.</p>
+                                            }
+
+                                        </div>
+@*                                        <span class="text-danger" style="position: absolute;cursor: pointer;background: black;padding: 4px;font-size: 16px;color: white !important;font-weight: 800;margin-left:5px;" onclick="funcProductImageRemove()">X</span>
+*@   
+                                          </div>
+@*
+                                    <form asp-action="Delete" asp-controller="ProductImage" asp-route-id="productimageId" method="post">
+                                        <input type="submit" class="btn btn-primary" value="Delete"/>
+                                        </form>*@
+                                    
+                                   
+                                    <br />                                 
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
+
+<script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    function deleteImage(imageId, event) {
+        event.preventDefault(); // Prevent default form submission
+
+            $.ajax({
+                url: '/ProductImage/Delete/' + imageId,
+                type: 'DELETE',
+                success: function (result) {
+                    // If deletion is successful, remove the image from the DOM
+                    $('#' + imageId).remove();
+                    //alert('Image deleted successfully!');
+                     location.reload();
+                },
+                
+            });
+        return false
+    }
+</script>
+
+<script>
+    function editProduct() {
+        var productId = @ViewBag.ProductId; 
+
+        $.ajax({
+            url: '/ProductImage/Edit/',
+            type: 'POST',
+            data: { productId: productId },
+            success: function () {
+
+                // Show the alert
+                //alert("Data successfully saved.");
+                //swal('Good job!', 'Product Update Successfully!', 'success');
+
+                // Reload the current page
+
+                location.reload();
+            },
+                error: function (xhr, status, error) {
+                var errorMessage = xhr.responseText || error || 'Unknown error';
+                swal('Good job!', 'Product Update Successfully!', 'Message');
+            }
+        });
+        return false;
+    }
+</script>
+
+
+

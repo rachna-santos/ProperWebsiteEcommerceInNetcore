@@ -1,0 +1,135 @@
+﻿@model Theme_Implemenet.Models.Promotionmapping
+@{
+    ViewData["Title"] = "promotionMappingEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/Adminsite/images/favicon.png" />
+</head>
+<style>
+    .btn-primary:hover {
+        background-color: blueviolet;
+    }
+</style>
+<body>
+    <div class="container-scroller">
+        <!-- partial:../../partials/_navbar.html -->
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:../../partials/_settings-panel.html -->
+            <!-- partial -->
+            <div class="main-panel" style="width:400%">
+                <div class="content-wrapper container-fluid">
+                    <div class="page-header">
+                        <h3 class="page-title">
+                            Update Promotionmapping
+                        </h3>
+                        <nav aria-label="breadcrumb">
+                        </nav>
+                    </div>
+                    <form class="forms-sample" method="post" id="promotionForm">
+                        <div class="row">
+                            <div class="card" style="width:400%">
+       
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:30px;">
+                                                <label style="font-size: 16px;">Product</label>
+                                                <select asp-for="productId" class="form-control" style="height: 60px;" style="font-size: 16px;">
+                                 
+                                                    @if (ViewBag.product != null)
+                                                    {
+                                                        foreach (var item in ViewBag.product)
+                                                        {
+                                                            <option value="@item.productId">@item.productName</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                <span asp-validation-for="productId" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="form-group" style="margin-top:30px;">
+                                                <label style="font-size: 16px;">Promotion</label>
+                                                <select asp-for="proId" class="form-control" style="height: 60px;" style="font-size: 16px;">
+            
+
+                                                    @if (ViewBag.promotion != null)
+                                                    {
+                                                        foreach (var item in ViewBag.promotion)
+                                                        {
+                                                            <option value="@item.proId">@item.ProName</option>
+
+                                                        }
+                                                    }
+                                                </select>
+                                                <span asp-validation-for="proId" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="d-flex justify-content-lg-end justify-content-sm-start">
+                                        <button type="submit" class="btn btn-primary mr-2 mt-5 p-3 float-sm-left btn btn-primary m-b-0">Submit</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
+
+<script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('form').submit(function (e) {
+            // Check form validity
+            var form = $(this)[0];
+            if (!form.checkValidity()) {
+                e.preventDefault();
+            } else {
+                // If form is valid, check if any field is empty
+                var emptyFields = $(this).find(":input").not(":button, :submit, :reset, :hidden").filter(function () {
+                    return $(this).val() === "";
+                });
+                if (emptyFields.length > 0) {
+                    // If any field is empty, show error alert
+                    e.preventDefault();
+                    swal({
+                        title: "Error!",
+                        text: "Please fill out all required fields.",
+                        icon: "error",
+                        button: "OK",
+                    });
+                } else {
+                    // If all fields are filled, show success alert
+                    swal('Good job!', 'PromotionUpdate!', 'success');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 5000)
+                }
+            }
+        });
+    });
+</script>

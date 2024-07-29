@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Theme_Implemenet.Models.ModelView>
+
+@*@model Theme_Implemenet.Models.RegisterViewModel*@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Melody Admin</title>
+    <link rel="stylesheet" href="~/Adminsite/vendors/iconfonts/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/Adminsite/vendors/css/vendor.bundle.addons.css">
+    <link rel="stylesheet" href="~/Adminsite/css/style.css">
+    <link rel="shortcut icon" href="http://www.urbanui.com/">
+</head>
+<body>
+  <div class="container-fluid page-body-wrapper">
+        <div class="main-panel" style="width:100%">
+        <div class="content-wrapper">
+          <div class="page-header">
+            <h3 class="page-title">
+                       List User
+                    </h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page" style="font-size: 15px;"><a href="@Url.Action("Register","Account")" style="color:black;"> Create User </a></li>
+                        </ol>
+            </nav>
+          </div>
+          <div class="row">
+            <div class="col-12 grid-margin">
+              <div class="card">
+               <div class="card-body">
+                  <div class="row">
+                    <div class="table-sorter-wrapper col-lg-12 table-responsive">
+                      <table id="sortable-table-1" class="table">
+                        <thead>
+                          <tr>
+                             <th class="sortStyle">UseName</th>
+                             <th class="sortStyle">Email</th>
+                             <th class="sortStyle">Role</th>
+                             <th class="sortStyle">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                                                @foreach (var user in Model)
+                                                  {
+                                                    <tr>
+                                                       
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem =>user.UserName)
+                                                        </td>
+                                                        <td>
+                                                            @user.Email
+                                                        </td>
+
+                                                        <td>
+                                                            @foreach (var role in user.Role)
+                                                            {
+                                                                @role <br />
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-primary">Edit</a>
+                                                        </td>
+                                               @*         <td>
+                                                            <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                                                                <input type="submit" class="btn btn-primary" value="Delete" onclick="return confirm('are you show you want to delete data')" />
+                                                            </form>
+                                                        </td>*@
+                                                    </tr>
+                                                  }
+
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </div>
+      </div>
+
+</body>
+
+
+<!-- Mirrored from www.urbanui.com/melody/template/pages/tables/data-table.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Sep 2018 06:08:41 GMT -->
+</html>
