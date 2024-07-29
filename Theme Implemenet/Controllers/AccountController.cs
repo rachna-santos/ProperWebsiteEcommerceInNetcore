@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Hosting;
 using Microsoft.DotNet.Scaffolding.Shared.Project;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.Design;
 using System.Data;
 using System.Diagnostics;
@@ -290,5 +291,11 @@ namespace Theme_Implemenet.Controllers
 
             return RedirectToAction("Login", "Account");
         }
+
+        public IActionResult createRoles()
+        {
+            return View();
+        }
     }
+  
 }
